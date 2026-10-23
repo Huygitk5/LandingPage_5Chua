@@ -22,6 +22,7 @@ function el(tag, attrs, children) {
     node.setAttribute(key, value === true ? '' : value);
   }
   for (const child of [].concat(children == null ? [] : children)) {
+    if (child == null || child === false) continue; // cho phép viết cond ? el(...) : null
     node.append(child);
   }
   return node;
@@ -103,20 +104,25 @@ function productCard(product) {
       'aria-label': `Xem ảnh lớn: ${product.name}`,
     }, img);
 
+  // Chỉ gắn nhãn khi hết hàng; còn hàng là trạng thái mặc định nên không cần nhãn.
   const media = el('div', { class: 'product-media' }, [
     picture,
-    el('span', { class: product.inStock ? 'product-badge' : 'product-badge is-out' },
-      product.inStock ? 'Còn hàng' : 'Hết hàng'),
+    product.inStock ? null : el('span', { class: 'product-badge' }, 'Hết hàng'),
   ]);
 
   const orderBtn = el('button', { class: 'btn btn-primary', type: 'button', 'data-order': product.id },
     product.inStock ? 'Đặt mua' : 'Hỏi hàng');
 
+  // Giá nằm ngay dưới tên. Có giá thì quy cách đi kèm giá; chưa có giá thì hiện lời mời báo giá.
+  const priceLine = price
+    ? el('p', { class: 'product-price' }, [price, el('span', {}, ` / ${product.spec}`)])
+    : el('p', { class: 'product-price is-quote' }, 'Liên hệ báo giá');
+
   const body = el('div', { class: 'product-body' }, [
     el('h3', {}, product.name),
-    el('p', { class: 'product-spec' }, product.spec),
+    priceLine,
+    price ? null : el('p', { class: 'product-spec' }, product.spec),
     el('p', { class: 'product-desc' }, product.desc),
-    el('p', { class: price ? 'product-price' : 'product-price is-quote' }, price ? `${price} / ${product.spec}` : 'Liên hệ báo giá'),
     orderBtn,
   ]);
 
