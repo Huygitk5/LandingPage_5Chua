@@ -25,21 +25,29 @@
 .product-media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.5s ease; }
 .product-card:hover .product-media img { transform: scale(1.06); }
 .product-zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+/* Nhãn chỉ dùng cho sản phẩm hết hàng */
 .product-badge {
   position: absolute; top: 12px; left: 12px; padding: 3px 10px; border-radius: 999px;
-  background: var(--green); color: #fff; font-size: 0.78rem; font-weight: 600;
+  background: var(--muted); color: #fff; font-size: 0.78rem; font-weight: 600;
 }
-.product-badge.is-out { background: var(--muted); }
 
-.product-body { display: flex; flex-direction: column; flex: 1; padding: 16px; gap: 6px; }
-.product-body h3 { margin: 0; }
-.product-spec { margin: 0; font-size: 0.9rem; color: var(--muted); }
-.product-desc { margin: 0; font-size: 0.95rem; color: var(--muted); }
-.product-price { margin: 4px 0 0; font-size: 1.35rem; font-weight: 700; color: var(--honey-dark); }
-.product-price.is-quote { font-size: 1.05rem; color: var(--green); }
-.product-body .btn { margin-top: auto; }
-.product-body .product-desc + .product-price { margin-top: 8px; }
-.product-card .btn { margin-top: 12px; }
+.product-body { display: flex; flex-direction: column; flex: 1; padding: 16px 18px 18px; gap: 4px; }
+.product-body h3 { margin: 0; font-size: 1.2rem; }
+
+/* Giá: dòng nổi nhất của thẻ, nằm ngay dưới tên */
+.product-price {
+  margin: 0 0 4px; font-family: var(--font-head); font-size: 1.8rem; font-weight: 700;
+  line-height: 1.2; color: var(--honey-dark);
+}
+.product-price span { font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; color: var(--muted); }
+.product-price.is-quote {
+  align-self: flex-start; padding: 4px 14px; border-radius: 999px;
+  background: var(--honey-soft); font-family: var(--font-body); font-size: 0.95rem; font-weight: 600;
+}
+
+.product-spec { margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--green); }
+.product-desc { margin: 0 0 14px; font-size: 0.95rem; color: var(--muted); }
+.product-card .btn { width: 100%; margin-top: auto; }
 
 .products-note { margin: 28px 0 0; text-align: center; font-size: 0.9rem; color: var(--muted); }
 .noscript { text-align: center; grid-column: 1 / -1; }

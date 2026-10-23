@@ -6,6 +6,7 @@ function el(tag, attrs, children) {
     node.setAttribute(key, value === true ? '' : value);
   }
   for (const child of [].concat(children == null ? [] : children)) {
+    if (child == null || child === false) continue; // cho phép viết cond ? el(...) : null
     node.append(child);
   }
   return node;
