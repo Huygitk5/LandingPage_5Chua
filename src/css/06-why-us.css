@@ -1,10 +1,15 @@
-.why { background: var(--paper); }
+.why { background: var(--sage); }
 
 .why-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
 .why-card {
-  padding: 22px 20px; border-radius: var(--radius); background: var(--cream); border: 1px solid var(--line);
+  padding: 22px 20px; border-radius: var(--radius); background: var(--paper); border: 1px solid var(--line);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.why-card .icon { color: var(--honey-dark); margin-bottom: 10px; }
+.why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.why-card .icon {
+  box-sizing: content-box; padding: 10px; margin-bottom: 12px; border-radius: 50%;
+  background: var(--honey-soft); color: var(--honey-dark);
+}
 .why-card h3 { margin-bottom: 0.35em; }
 .why-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
 

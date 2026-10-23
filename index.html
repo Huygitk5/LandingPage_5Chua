@@ -15,6 +15,13 @@
   <meta property="og:url" content="https://quochuy0811.github.io/MATONG/">
   <meta property="og:image" content="https://quochuy0811.github.io/MATONG/assets/img/intro1.webp">
 
+  <script>
+    // Bật hiệu ứng hiện dần; nếu app.js không chạy sau 4 giây thì hiện hết nội dung.
+    document.documentElement.classList.add('js');
+    setTimeout(function () {
+      if (!window.__appReady) document.documentElement.classList.add('reveal-fallback');
+    }, 4000);
+  </script>
   <link rel="icon" type="image/png" href="assets/img/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +68,7 @@
       <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
       <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
       <symbol id="i-hex" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.5l9.1 5.25v10.5L12 22.5l-9.1-5.25V6.75z"/></symbol>
+      <symbol id="i-leafshape" viewBox="0 0 24 24"><path fill="currentColor" d="M3 21C3 11 9 4 21 3c0 11-6 18-18 18z"/><path fill="none" stroke="#fbf6ea" stroke-width="0.8" stroke-linecap="round" opacity="0.7" d="M3 21C9 15 13 11 18 7"/></symbol>
     </defs>
   </svg>
   <a class="skip-link" href="#san-pham">Bỏ qua tới sản phẩm</a>
@@ -91,9 +99,12 @@
     </div>
   </header>
   <main>
-    <section class="hero" id="trang-chu">
+    <section class="hero wave-bottom" id="trang-chu">
+      <svg class="leaf leaf-1" aria-hidden="true"><use href="#i-leafshape"/></svg>
+      <svg class="leaf leaf-2" aria-hidden="true"><use href="#i-leafshape"/></svg>
+
       <div class="container hero-inner">
-        <div class="hero-copy">
+        <div class="hero-copy" data-reveal>
           <p class="eyebrow">Cơ sở nuôi ong từ năm 1992</p>
           <h1>Chuyên mọi sản phẩm về ong</h1>
           <p class="lead">Mật ong, sữa ong chúa, tinh bột nghệ, cùng hoa lan và cây giống cacao, bòn bon. Đảm bảo chất lượng 100% tự nhiên. Hân hạnh phục vụ quý khách.</p>
@@ -110,7 +121,7 @@
           <a class="hero-link" href="#san-pham">Xem sản phẩm &darr;</a>
         </div>
 
-        <figure class="hero-figure">
+        <figure class="hero-figure" data-reveal data-delay="2">
           <img src="assets/img/intro1.webp" width="583" height="1200" alt="Dãy thùng nuôi ong dưới tán vườn cây ở Chợ Lách, Bến Tre" fetchpriority="high">
         </figure>
       </div>
@@ -124,31 +135,39 @@
       </ul>
     </section>
     <section class="section about" id="gioi-thieu">
+      <svg class="leaf leaf-about" aria-hidden="true"><use href="#i-leafshape"/></svg>
+
       <div class="container about-inner">
-        <div class="about-copy">
+        <div class="about-copy" data-reveal>
           <p class="eyebrow">Giới thiệu</p>
           <h2>Câu chuyện của Năm Chùa</h2>
           <p>Năm Chùa là cơ sở nuôi ong khởi nghiệp từ năm 1992 tại Tân Thiềng, Chợ Lách, Bến Tre. Mật ong và sữa ong chúa được nuôi và thu hoạch ngay tại vườn.</p>
           <p>Bên cạnh các sản phẩm từ ong, cơ sở còn cung cấp tinh bột nghệ, hoa lan (hồ điệp, lan rừng và nhiều loại khác) cùng cây giống cacao, bòn bon cho bà con làm vườn.</p>
           <p>Mọi sản phẩm đều được cam kết chất lượng. Quý khách mua số lượng lớn sẽ có ưu đãi, xin liên hệ trực tiếp qua điện thoại để được tư vấn.</p>
+
+          <ul class="stats">
+            <li><strong class="stat-num" data-count="30" data-suffix="+">30+</strong><span>năm nuôi ong</span></li>
+            <li><strong class="stat-num" data-count="products">7</strong><span>sản phẩm</span></li>
+            <li><strong class="stat-num" data-count="100" data-suffix="%">100%</strong><span>tự nhiên</span></li>
+          </ul>
         </div>
 
-        <div class="about-photos">
+        <div class="about-photos" data-reveal data-delay="2">
           <img src="assets/img/intro3.webp" width="600" height="1200" loading="lazy" alt="Cầu ong nhiều mật được lấy từ thùng nuôi">
           <img src="assets/img/intro2.webp" width="600" height="1200" loading="lazy" alt="Chủ vườn Năm Chùa">
         </div>
       </div>
     </section>
-    <section class="section products" id="san-pham">
+    <section class="section products wave-top" id="san-pham">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
           <p class="eyebrow">Sản phẩm</p>
           <h2>Sản phẩm của Năm Chùa</h2>
           <p class="section-sub">Chọn nhóm sản phẩm, bấm “Đặt mua” để điền sẵn vào phiếu đặt hàng.</p>
         </header>
 
         <div class="tabs" id="product-tabs" role="tablist" aria-label="Nhóm sản phẩm"></div>
-        <div class="product-grid" id="product-grid" role="tabpanel" aria-live="polite">
+        <div class="product-grid" id="product-grid" role="tabpanel" aria-live="polite" data-reveal>
           <noscript><p class="noscript">Vui lòng bật JavaScript để xem sản phẩm, hoặc gọi <a href="tel:+84975332882">0975 332 882</a> để được tư vấn.</p></noscript>
         </div>
         <p class="products-note">Giá có thể thay đổi theo mùa vụ. Mua số lượng lớn xin liên hệ để có ưu đãi.</p>
@@ -156,12 +175,12 @@
     </section>
     <section class="section why" id="vi-sao">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
           <p class="eyebrow">Vì sao chọn Năm Chùa</p>
           <h2>Làm nghề nghiêm túc, bán hàng rõ ràng</h2>
         </header>
 
-        <ul class="why-grid">
+        <ul class="why-grid" data-stagger>
           <li class="why-card">
             <svg class="icon icon-lg" aria-hidden="true"><use href="#i-clock"/></svg>
             <h3>Hơn 30 năm làm ong</h3>
@@ -185,14 +204,16 @@
         </ul>
       </div>
     </section>
-    <section class="section steps" id="cach-dat-hang">
+    <section class="section steps wave-top" id="cach-dat-hang">
+      <svg class="leaf leaf-steps" aria-hidden="true"><use href="#i-leafshape"/></svg>
+
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
           <p class="eyebrow">Cách đặt hàng</p>
           <h2>Đặt hàng trong 3 bước</h2>
         </header>
 
-        <ol class="steps-list">
+        <ol class="steps-list" data-stagger>
           <li>
             <span class="step-no" aria-hidden="true">1</span>
             <h3>Chọn sản phẩm</h3>
@@ -211,16 +232,16 @@
         </ol>
       </div>
     </section>
-    <section class="section contact" id="lien-he">
+    <section class="section contact wave-top" id="lien-he">
       <div class="container">
-        <header class="section-head">
+        <header class="section-head" data-reveal>
           <p class="eyebrow">Liên hệ</p>
           <h2>Đặt hàng và liên hệ</h2>
           <p class="section-sub">Ưu tiên liên hệ qua số điện thoại.</p>
         </header>
 
         <div class="contact-grid">
-          <form class="order-form" id="order-form" novalidate>
+          <form class="order-form" id="order-form" novalidate data-reveal>
             <h3>Phiếu đặt hàng</h3>
 
             <label for="f-name">Họ và tên</label>
@@ -251,7 +272,7 @@
             <div class="form-result" id="form-result" role="status" aria-live="polite" hidden></div>
           </form>
 
-          <aside class="contact-info">
+          <aside class="contact-info" data-reveal data-delay="2">
             <h3>Thông tin liên hệ</h3>
             <ul class="contact-list">
               <li>
@@ -284,7 +305,7 @@
       </div>
     </section>
   </main>
-  <footer class="site-footer">
+  <footer class="site-footer wave-top">
     <div class="container footer-inner">
       <p class="footer-brand">5 CHÙA &middot; Chuyên mọi sản phẩm về ong</p>
       <p class="footer-meta">Tân Thiềng, Chợ Lách, Bến Tre &middot; <a href="tel:+84975332882">0975 332 882</a></p>
@@ -300,6 +321,19 @@
       <svg class="icon" aria-hidden="true"><use href="#i-zalo"/></svg><span>Zalo</span>
     </a>
   </div>
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lb-title">
+    <div class="lb-card">
+      <button class="lb-close" id="lb-close" type="button" aria-label="Đóng ảnh">
+        <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+      <img id="lb-img" src="" alt="" width="900" height="1200">
+      <div class="lb-body">
+        <h3 id="lb-title"></h3>
+        <p id="lb-meta"></p>
+        <button class="btn btn-primary" id="lb-order" type="button" hidden>Đặt mua</button>
+      </div>
+    </div>
+  </dialog>
 
   <script src="assets/app.js" defer></script>
 </body>

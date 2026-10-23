@@ -15,6 +15,13 @@
   <meta property="og:url" content="{{siteUrl}}">
   <meta property="og:image" content="{{siteUrl}}assets/img/intro1.webp">
 
+  <script>
+    // Bật hiệu ứng hiện dần; nếu app.js không chạy sau 4 giây thì hiện hết nội dung.
+    document.documentElement.classList.add('js');
+    setTimeout(function () {
+      if (!window.__appReady) document.documentElement.classList.add('reveal-fallback');
+    }, 4000);
+  </script>
   <link rel="icon" type="image/png" href="assets/img/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,6 +45,7 @@
     <!-- @include sections/08-contact.html -->
   </main>
   <!-- @include sections/09-footer.html -->
+  <!-- @include sections/11-lightbox.html -->
 
   <script src="assets/app.js" defer></script>
 </body>
