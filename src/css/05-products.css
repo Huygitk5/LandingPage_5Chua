@@ -16,8 +16,15 @@
   background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: 0 2px 8px rgba(43, 42, 38, 0.05);
 }
-.product-media { position: relative; background: var(--honey-soft); }
-.product-media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.product-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+.card-in { animation: card-in 0.45s ease both; animation-delay: calc(var(--i, 0) * 70ms); }
+@keyframes card-in { from { opacity: 0; transform: translateY(16px); } }
+
+.product-media { position: relative; overflow: hidden; background: var(--honey-soft); }
+.product-media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.5s ease; }
+.product-card:hover .product-media img { transform: scale(1.06); }
+.product-zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 .product-badge {
   position: absolute; top: 12px; left: 12px; padding: 3px 10px; border-radius: 999px;
   background: var(--green); color: #fff; font-size: 0.78rem; font-weight: 600;

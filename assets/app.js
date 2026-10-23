@@ -91,11 +91,20 @@ let activeGroup = PRODUCT_GROUPS[0].id;
 function productCard(product) {
   const price = formatPrice(product.price);
 
+  const img = el('img', {
+    src: product.image, alt: product.imageAlt || product.name,
+    width: 904, height: 1130, loading: 'lazy',
+  });
+  // Ảnh thật bấm được để phóng to; ảnh tạm thì không.
+  const picture = product.image === PLACEHOLDER_IMG
+    ? img
+    : el('button', {
+      class: 'product-zoom', type: 'button', 'data-zoom': product.id,
+      'aria-label': `Xem ảnh lớn: ${product.name}`,
+    }, img);
+
   const media = el('div', { class: 'product-media' }, [
-    el('img', {
-      src: product.image, alt: product.imageAlt || product.name,
-      width: 904, height: 1130, loading: 'lazy',
-    }),
+    picture,
     el('span', { class: product.inStock ? 'product-badge' : 'product-badge is-out' },
       product.inStock ? 'Còn hàng' : 'Hết hàng'),
   ]);
@@ -114,12 +123,20 @@ function productCard(product) {
   return el('article', { class: 'product-card' }, [media, body]);
 }
 
-function renderGrid() {
+function renderGrid(animate) {
   gridEl.setAttribute('aria-labelledby', `tab-${activeGroup}`);
-  gridEl.replaceChildren(...PRODUCTS.filter((p) => p.group === activeGroup).map(productCard));
+  const cards = PRODUCTS.filter((p) => p.group === activeGroup).map(productCard);
+  if (animate) {
+    cards.forEach((card, i) => {
+      card.classList.add('card-in');
+      card.style.setProperty('--i', i);
+    });
+  }
+  gridEl.replaceChildren(...cards);
 }
 
-function setGroup(groupId, focus) {
+// animate: chỉ bật khi người dùng đổi tab (lần hiển thị đầu tiên do hiệu ứng cuộn lo).
+function setGroup(groupId, focus, animate) {
   activeGroup = groupId;
   for (const tab of tabsEl.children) {
     const selected = tab.dataset.group === groupId;
@@ -127,7 +144,7 @@ function setGroup(groupId, focus) {
     tab.tabIndex = selected ? 0 : -1;
     if (selected && focus) tab.focus();
   }
-  renderGrid();
+  renderGrid(animate);
 }
 
 function renderTabs() {
@@ -138,7 +155,7 @@ function renderTabs() {
 
   tabsEl.addEventListener('click', (e) => {
     const tab = e.target.closest('.tab');
-    if (tab) setGroup(tab.dataset.group);
+    if (tab) setGroup(tab.dataset.group, false, true);
   });
 
   // Phím mũi tên chuyển tab (chuẩn ARIA tabs)
@@ -147,18 +164,31 @@ function renderTabs() {
     if (!step) return;
     const ids = PRODUCT_GROUPS.map((g) => g.id);
     const next = (ids.indexOf(activeGroup) + step + ids.length) % ids.length;
-    setGroup(ids[next], true);
+    setGroup(ids[next], true, true);
     e.preventDefault();
   });
 }
 
 gridEl.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-order]');
-  if (btn) selectProduct(btn.dataset.order);
+  const orderBtn = e.target.closest('[data-order]');
+  if (orderBtn) {
+    selectProduct(orderBtn.dataset.order);
+    return;
+  }
+  const zoomBtn = e.target.closest('[data-zoom]');
+  if (zoomBtn) {
+    const product = PRODUCTS.find((p) => p.id === zoomBtn.dataset.zoom);
+    const price = formatPrice(product.price);
+    openLightbox({
+      src: product.image, alt: product.imageAlt, title: product.name,
+      meta: price ? `${price} / ${product.spec}` : `${product.spec} · Liên hệ báo giá`,
+      productId: product.id,
+    });
+  }
 });
 
 renderTabs();
-setGroup(activeGroup);
+setGroup(activeGroup, false, false);
 
 /* 30-order-form.js */
 // Phiếu đặt hàng: điền sẵn sản phẩm, kiểm tra dữ liệu, gửi Formspree hoặc hiện phương án dự phòng.
@@ -307,25 +337,164 @@ formEl.addEventListener('submit', (e) => {
 fillProductSelect();
 
 /* 40-nav.js */
-// Menu di động, đổ bóng header khi cuộn, năm ở chân trang.
+// Menu di động, header (đổ bóng, ẩn khi cuộn xuống), năm ở chân trang.
 const headerEl = document.getElementById('site-header');
 const navEl = document.getElementById('site-nav');
 const navToggle = document.getElementById('nav-toggle');
+const HIDE_AFTER = 240; // chỉ ẩn header khi đã cuộn qua ngần này px
+let lastY = window.scrollY;
 
 function setNav(open) {
   navEl.classList.toggle('is-open', open);
   navToggle.setAttribute('aria-expanded', String(open));
   navToggle.setAttribute('aria-label', open ? 'Đóng menu' : 'Mở menu');
+  if (open) headerEl.classList.remove('is-hidden');
 }
 
 navToggle.addEventListener('click', () => setNav(navToggle.getAttribute('aria-expanded') !== 'true'));
 navEl.addEventListener('click', (e) => { if (e.target.closest('a')) setNav(false); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setNav(false); });
+headerEl.addEventListener('focusin', () => headerEl.classList.remove('is-hidden'));
 
-const syncHeader = () => headerEl.classList.toggle('is-scrolled', window.scrollY > 8);
+function syncHeader() {
+  const y = window.scrollY;
+  const menuOpen = navToggle.getAttribute('aria-expanded') === 'true';
+  headerEl.classList.toggle('is-scrolled', y > 8);
+
+  if (y < lastY - 4 || y <= HIDE_AFTER || menuOpen) {
+    headerEl.classList.remove('is-hidden');
+  } else if (y > lastY + 4) {
+    headerEl.classList.add('is-hidden');
+  }
+  if (Math.abs(y - lastY) > 4) lastY = y;
+}
 window.addEventListener('scroll', syncHeader, { passive: true });
 syncHeader();
 
 document.getElementById('year').textContent = new Date().getFullYear();
+
+/* 50-reveal.js */
+// Hiện dần khi cuộn tới và số đếm lên. Tắt khi người dùng bật "giảm chuyển động".
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canObserve = 'IntersectionObserver' in window;
+
+function setupReveal() {
+  const targets = [...document.querySelectorAll('[data-reveal]')];
+  for (const group of document.querySelectorAll('[data-stagger]')) {
+    [...group.children].forEach((child, i) => {
+      child.dataset.delay = i;
+      targets.push(child);
+    });
+  }
+  if (reduceMotion || !canObserve) return; // không thêm .reveal thì nội dung hiện sẵn
+
+  for (const node of targets) {
+    node.classList.add('reveal');
+    node.style.transitionDelay = `${(Number(node.dataset.delay) || 0) * 90}ms`;
+  }
+
+  // Hiện xong thì gỡ lớp .reveal để hover và các hiệu ứng khác của phần tử hoạt động bình thường.
+  const finish = (node) => {
+    node.classList.remove('reveal', 'is-visible');
+    node.style.transitionDelay = '';
+  };
+
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const node = entry.target;
+      io.unobserve(node);
+      node.classList.add('is-visible');
+      node.addEventListener('transitionend', (e) => {
+        if (e.propertyName === 'opacity') finish(node);
+      }, { once: true });
+    }
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+  targets.forEach((node) => io.observe(node));
+}
+
+function renderCount(node, value) {
+  node.textContent = `${Math.round(value)}${node.dataset.suffix || ''}`;
+}
+
+function animateCount(node, target) {
+  const start = performance.now();
+  const duration = 1200;
+  const tick = (now) => {
+    const t = Math.min((now - start) / duration, 1);
+    renderCount(node, target * (1 - (1 - t) ** 3)); // ease-out
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+function setupCounters() {
+  const nodes = [...document.querySelectorAll('[data-count]')];
+  const targetOf = (node) => (node.dataset.count === 'products' ? PRODUCTS.length : Number(node.dataset.count));
+
+  for (const node of nodes) renderCount(node, targetOf(node)); // giá trị cuối cùng
+  if (reduceMotion || !canObserve) return;
+
+  for (const node of nodes) renderCount(node, 0);
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      io.unobserve(entry.target);
+      animateCount(entry.target, targetOf(entry.target));
+    }
+  }, { threshold: 0.6 });
+  nodes.forEach((node) => io.observe(node));
+}
+
+setupReveal();
+setupCounters();
+
+/* 60-lightbox.js */
+// Cửa sổ xem ảnh lớn (thẻ <dialog>): ảnh sản phẩm và ảnh giới thiệu.
+const lightboxEl = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbTitle = document.getElementById('lb-title');
+const lbMeta = document.getElementById('lb-meta');
+const lbOrder = document.getElementById('lb-order');
+let lbProductId = null;
+
+// productId có thì hiện nút "Đặt mua" cho sản phẩm đó.
+function openLightbox({ src, alt, title, meta, productId }) {
+  lbImg.src = src;
+  lbImg.alt = alt || title || '';
+  lbTitle.textContent = title || '';
+  lbMeta.textContent = meta || '';
+  lbProductId = productId || null;
+  lbOrder.hidden = !lbProductId;
+  lightboxEl.showModal();
+}
+
+lightboxEl.addEventListener('click', (e) => {
+  if (e.target === lightboxEl) lightboxEl.close(); // bấm vùng nền tối
+});
+document.getElementById('lb-close').addEventListener('click', () => lightboxEl.close());
+lbOrder.addEventListener('click', () => {
+  const id = lbProductId;
+  lightboxEl.close();
+  selectProduct(id);
+});
+
+for (const img of document.querySelectorAll('.about-photos img')) {
+  img.tabIndex = 0;
+  img.setAttribute('role', 'button');
+  const open = () => openLightbox({ src: img.currentSrc || img.src, alt: img.alt, title: img.alt });
+  img.addEventListener('click', open);
+  img.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      open();
+    }
+  });
+}
+
+/* 99-ready.js */
+// Báo cho script trong <head> biết app.js đã chạy xong (không cần bật chế độ hiện hết nội dung).
+window.__appReady = true;
 
 })();

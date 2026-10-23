@@ -1,4 +1,4 @@
-.site-footer { background: var(--green-dark); color: #d6e2d2; text-align: center; padding: 28px 0; }
+.site-footer { background: var(--green-dark); color: #d6e2d2; text-align: center; padding: 60px 0 28px; }
 .site-footer p { margin: 0 0 4px; }
 .site-footer a { color: var(--honey); }
 .footer-brand { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: #fff; }

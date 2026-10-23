@@ -6,11 +6,20 @@ let activeGroup = PRODUCT_GROUPS[0].id;
 function productCard(product) {
   const price = formatPrice(product.price);
 
+  const img = el('img', {
+    src: product.image, alt: product.imageAlt || product.name,
+    width: 904, height: 1130, loading: 'lazy',
+  });
+  // Ảnh thật bấm được để phóng to; ảnh tạm thì không.
+  const picture = product.image === PLACEHOLDER_IMG
+    ? img
+    : el('button', {
+      class: 'product-zoom', type: 'button', 'data-zoom': product.id,
+      'aria-label': `Xem ảnh lớn: ${product.name}`,
+    }, img);
+
   const media = el('div', { class: 'product-media' }, [
-    el('img', {
-      src: product.image, alt: product.imageAlt || product.name,
-      width: 904, height: 1130, loading: 'lazy',
-    }),
+    picture,
     el('span', { class: product.inStock ? 'product-badge' : 'product-badge is-out' },
       product.inStock ? 'Còn hàng' : 'Hết hàng'),
   ]);
@@ -29,12 +38,20 @@ function productCard(product) {
   return el('article', { class: 'product-card' }, [media, body]);
 }
 
-function renderGrid() {
+function renderGrid(animate) {
   gridEl.setAttribute('aria-labelledby', `tab-${activeGroup}`);
-  gridEl.replaceChildren(...PRODUCTS.filter((p) => p.group === activeGroup).map(productCard));
+  const cards = PRODUCTS.filter((p) => p.group === activeGroup).map(productCard);
+  if (animate) {
+    cards.forEach((card, i) => {
+      card.classList.add('card-in');
+      card.style.setProperty('--i', i);
+    });
+  }
+  gridEl.replaceChildren(...cards);
 }
 
-function setGroup(groupId, focus) {
+// animate: chỉ bật khi người dùng đổi tab (lần hiển thị đầu tiên do hiệu ứng cuộn lo).
+function setGroup(groupId, focus, animate) {
   activeGroup = groupId;
   for (const tab of tabsEl.children) {
     const selected = tab.dataset.group === groupId;
@@ -42,7 +59,7 @@ function setGroup(groupId, focus) {
     tab.tabIndex = selected ? 0 : -1;
     if (selected && focus) tab.focus();
   }
-  renderGrid();
+  renderGrid(animate);
 }
 
 function renderTabs() {
@@ -53,7 +70,7 @@ function renderTabs() {
 
   tabsEl.addEventListener('click', (e) => {
     const tab = e.target.closest('.tab');
-    if (tab) setGroup(tab.dataset.group);
+    if (tab) setGroup(tab.dataset.group, false, true);
   });
 
   // Phím mũi tên chuyển tab (chuẩn ARIA tabs)
@@ -62,15 +79,28 @@ function renderTabs() {
     if (!step) return;
     const ids = PRODUCT_GROUPS.map((g) => g.id);
     const next = (ids.indexOf(activeGroup) + step + ids.length) % ids.length;
-    setGroup(ids[next], true);
+    setGroup(ids[next], true, true);
     e.preventDefault();
   });
 }
 
 gridEl.addEventListener('click', (e) => {
-  const btn = e.target.closest('[data-order]');
-  if (btn) selectProduct(btn.dataset.order);
+  const orderBtn = e.target.closest('[data-order]');
+  if (orderBtn) {
+    selectProduct(orderBtn.dataset.order);
+    return;
+  }
+  const zoomBtn = e.target.closest('[data-zoom]');
+  if (zoomBtn) {
+    const product = PRODUCTS.find((p) => p.id === zoomBtn.dataset.zoom);
+    const price = formatPrice(product.price);
+    openLightbox({
+      src: product.image, alt: product.imageAlt, title: product.name,
+      meta: price ? `${price} / ${product.spec}` : `${product.spec} · Liên hệ báo giá`,
+      productId: product.id,
+    });
+  }
 });
 
 renderTabs();
-setGroup(activeGroup);
+setGroup(activeGroup, false, false);
