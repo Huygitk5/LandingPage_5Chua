@@ -1,0 +1,50 @@
+.site-header {
+  position: sticky; top: 0; z-index: 50; height: var(--header-h);
+  background: rgba(251, 246, 234, 0.96); backdrop-filter: blur(6px);
+  border-bottom: 1px solid transparent; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.site-header.is-scrolled { border-color: var(--line); box-shadow: 0 2px 10px rgba(43, 42, 38, 0.06); }
+
+.header-inner { height: 100%; display: flex; align-items: center; gap: 12px; }
+
+.brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-right: auto; }
+.brand-mark { width: 30px; height: 30px; color: var(--honey); }
+.brand-name { font-family: var(--font-head); font-weight: 700; font-size: 1.35rem; color: var(--green-dark); }
+
+.nav { display: none; gap: 22px; }
+.nav a { text-decoration: none; font-weight: 500; color: var(--ink); padding: 6px 2px; border-bottom: 2px solid transparent; }
+.nav a:hover { color: var(--green-dark); border-color: var(--honey); }
+
+.header-call { padding: 8px 14px; }
+
+.nav-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--green-dark); cursor: pointer;
+}
+.nav-toggle .icon { width: 26px; height: 26px; }
+.nav-toggle .icon-close { display: none; }
+.nav-toggle[aria-expanded="true"] .icon-open { display: none; }
+.nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+/* Menu dạng thả xuống trên điện thoại */
+@media (max-width: 859px) {
+  .nav {
+    position: absolute; left: 0; right: 0; top: var(--header-h);
+    flex-direction: column; gap: 0; padding: 8px 16px 16px;
+    background: var(--cream); border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
+  }
+  .nav.is-open { display: flex; }
+  .nav a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+}
+
+@media (max-width: 400px) {
+  .header-call span { display: none; }
+}
+
+@media (min-width: 860px) {
+  .nav { display: flex; }
+  .nav-toggle { display: none; }
+  .brand { margin-right: 0; }
+  .header-inner { gap: 32px; }
+  .nav { margin-right: auto; }
+}

@@ -1,0 +1,19 @@
+.steps { background: var(--green-dark); color: #fff; }
+.steps h2, .steps h3 { color: #fff; }
+.steps .eyebrow { color: var(--honey); }
+.steps a { color: var(--honey); }
+
+.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; counter-reset: none; }
+.steps-list li { position: relative; padding-left: 64px; }
+.steps-list p { margin: 0; color: #e3ecdf; }
+
+.step-no {
+  position: absolute; left: 0; top: 0; width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--honey); color: var(--ink); font-family: var(--font-head); font-weight: 700; font-size: 1.3rem;
+}
+
+@media (min-width: 860px) {
+  .steps-list { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .steps-list li { padding-left: 0; padding-top: 62px; }
+}

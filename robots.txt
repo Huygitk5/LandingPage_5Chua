@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://quochuy0811.github.io/MATONG/sitemap.xml

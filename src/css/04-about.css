@@ -1,0 +1,13 @@
+.about { background: var(--paper); }
+
+.about-inner { display: grid; gap: 32px; align-items: center; }
+.about-copy h2 { margin-bottom: 0.6em; }
+.about-copy p { color: var(--muted); }
+
+.about-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.about-photos img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+.about-photos img:nth-child(2) { margin-top: 28px; object-position: center 25%; }
+
+@media (min-width: 860px) {
+  .about-inner { grid-template-columns: 1.1fr 0.9fr; gap: 56px; }
+}

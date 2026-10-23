@@ -1,0 +1,45 @@
+.products { background: var(--cream); }
+
+.tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 28px; }
+.tab {
+  padding: 9px 18px; border: 2px solid var(--line); border-radius: 999px;
+  background: var(--paper); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.tab:hover { border-color: var(--honey); }
+.tab[aria-selected="true"] { background: var(--green); border-color: var(--green); color: #fff; }
+
+.product-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+
+.product-card {
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(43, 42, 38, 0.05);
+}
+.product-media { position: relative; background: var(--honey-soft); }
+.product-media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.product-badge {
+  position: absolute; top: 12px; left: 12px; padding: 3px 10px; border-radius: 999px;
+  background: var(--green); color: #fff; font-size: 0.78rem; font-weight: 600;
+}
+.product-badge.is-out { background: var(--muted); }
+
+.product-body { display: flex; flex-direction: column; flex: 1; padding: 16px; gap: 6px; }
+.product-body h3 { margin: 0; }
+.product-spec { margin: 0; font-size: 0.9rem; color: var(--muted); }
+.product-desc { margin: 0; font-size: 0.95rem; color: var(--muted); }
+.product-price { margin: 4px 0 0; font-size: 1.35rem; font-weight: 700; color: var(--honey-dark); }
+.product-price.is-quote { font-size: 1.05rem; color: var(--green); }
+.product-body .btn { margin-top: auto; }
+.product-body .product-desc + .product-price { margin-top: 8px; }
+.product-card .btn { margin-top: 12px; }
+
+.products-note { margin: 28px 0 0; text-align: center; font-size: 0.9rem; color: var(--muted); }
+.noscript { text-align: center; grid-column: 1 / -1; }
+
+@media (min-width: 560px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
+  .product-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+}

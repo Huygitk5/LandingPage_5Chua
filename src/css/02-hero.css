@@ -1,0 +1,28 @@
+.hero {
+  padding: 32px 0 48px;
+  background:
+    radial-gradient(circle at 85% 10%, var(--honey-soft) 0, transparent 45%),
+    var(--cream);
+}
+
+.hero-inner { display: grid; gap: 28px; align-items: center; }
+
+.hero-copy h1 { margin-bottom: 0.4em; }
+.lead { font-size: 1.1rem; color: var(--muted); max-width: 34em; }
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 14px; }
+.hero-link { font-weight: 600; text-decoration: none; }
+.hero-link:hover { text-decoration: underline; }
+
+.hero-figure { margin: 0; justify-self: center; width: 100%; max-width: 360px; }
+.hero-figure img {
+  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 70%;
+  border-radius: 28px 28px 28px 80px; box-shadow: var(--shadow);
+  border: 6px solid var(--paper);
+}
+
+@media (min-width: 860px) {
+  .hero { padding: 56px 0 72px; }
+  .hero-inner { grid-template-columns: 1.15fr 0.85fr; gap: 56px; }
+  .hero-figure { max-width: 420px; justify-self: end; }
+}

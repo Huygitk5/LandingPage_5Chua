@@ -1,0 +1,28 @@
+.site-footer { background: var(--green-dark); color: #d6e2d2; text-align: center; padding: 28px 0; }
+.site-footer p { margin: 0 0 4px; }
+.site-footer a { color: var(--honey); }
+.footer-brand { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: #fff; }
+.footer-meta { font-size: 0.9rem; }
+
+/* Nút gọi / Zalo nổi, chỉ hiện trên điện thoại */
+.float-actions {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(0, 0, 0, 0.15);
+  padding-bottom: env(safe-area-inset-bottom);
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.12);
+}
+.float-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 8px; font-weight: 700; text-decoration: none;
+}
+.float-call { background: var(--honey); color: var(--ink); }
+.float-call:hover { color: var(--ink); }
+.float-zalo { background: var(--green); color: #fff; }
+.float-zalo:hover { color: #fff; }
+
+body { padding-bottom: 52px; }
+
+@media (min-width: 860px) {
+  .float-actions { display: none; }
+  body { padding-bottom: 0; }
+}

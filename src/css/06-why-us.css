@@ -1,0 +1,12 @@
+.why { background: var(--paper); }
+
+.why-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr; gap: 16px; }
+.why-card {
+  padding: 22px 20px; border-radius: var(--radius); background: var(--cream); border: 1px solid var(--line);
+}
+.why-card .icon { color: var(--honey-dark); margin-bottom: 10px; }
+.why-card h3 { margin-bottom: 0.35em; }
+.why-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+@media (min-width: 560px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .why-grid { grid-template-columns: repeat(4, 1fr); } }

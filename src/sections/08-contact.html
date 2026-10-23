@@ -1,0 +1,72 @@
+<section class="section contact" id="lien-he">
+  <div class="container">
+    <header class="section-head">
+      <p class="eyebrow">Liên hệ</p>
+      <h2>Đặt hàng và liên hệ</h2>
+      <p class="section-sub">Ưu tiên liên hệ qua số điện thoại.</p>
+    </header>
+
+    <div class="contact-grid">
+      <form class="order-form" id="order-form" novalidate>
+        <h3>Phiếu đặt hàng</h3>
+
+        <label for="f-name">Họ và tên</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required>
+
+        <label for="f-phone">Số điện thoại</label>
+        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ví dụ: 0912345678" required>
+
+        <div class="field-row">
+          <div>
+            <label for="f-product">Sản phẩm</label>
+            <select id="f-product" name="product" required></select>
+          </div>
+          <div>
+            <label for="f-qty">Số lượng</label>
+            <input id="f-qty" name="quantity" type="text" placeholder="Ví dụ: 2 lít" required>
+          </div>
+        </div>
+
+        <label for="f-note">Ghi chú (không bắt buộc)</label>
+        <textarea id="f-note" name="note" rows="5" placeholder="Địa chỉ nhận hàng, thời gian tiện nghe máy..."></textarea>
+
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <button class="btn btn-primary btn-lg btn-block" type="submit" id="form-submit">Gửi phiếu đặt hàng</button>
+
+        <div class="form-result" id="form-result" role="status" aria-live="polite" hidden></div>
+      </form>
+
+      <aside class="contact-info">
+        <h3>Thông tin liên hệ</h3>
+        <ul class="contact-list">
+          <li>
+            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+            <span><strong>Điện thoại</strong><a href="tel:{{phoneIntl}}">{{phoneDisplay}}</a></span>
+          </li>
+          <li>
+            <svg class="icon" aria-hidden="true"><use href="#i-zalo"/></svg>
+            <span><strong>Zalo</strong><a href="https://zalo.me/{{zalo}}" target="_blank" rel="noopener">{{zalo}}</a></span>
+          </li>
+          <li>
+            <svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg>
+            <span><strong>Facebook</strong><a href="{{facebookUrl}}" target="_blank" rel="noopener">{{facebookName}}</a></span>
+          </li>
+          <li>
+            <svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>
+            <span><strong>Email</strong><a href="mailto:{{email}}">{{email}}</a></span>
+          </li>
+          <li>
+            <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
+            <span><strong>Địa chỉ</strong><a href="{{mapsUrl}}" target="_blank" rel="noopener">{{address}}</a></span>
+          </li>
+        </ul>
+
+        <div class="map">
+          <iframe title="Bản đồ {{address}}" src="{{mapsEmbedUrl}}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+{
+  "name": "nam-chua-landing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs && node --watch-path=src build.mjs",
+    "test": "node --test tests/"
+  }
+}
