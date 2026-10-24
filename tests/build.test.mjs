@@ -46,3 +46,26 @@ test('SĐT lấy từ site.json xuất hiện trong trang', () => {
   const site = JSON.parse(readFileSync(join(root, 'src', 'site.json'), 'utf8'));
   assert.ok(html.includes(`tel:${site.phoneIntl}`));
 });
+
+test('ảnh chia sẻ og:image là JPEG 1200x630 và có file thật', () => {
+  const m = html.match(/<meta property="og:image" content="[^"]*?(assets\/img\/[^"]+)">/);
+  assert.ok(m, 'thiếu og:image');
+  const file = readFileSync(join(root, m[1]));
+  assert.equal(file[0], 0xff, 'không phải JPEG');
+  // đọc kích thước từ khối SOF của JPEG
+  let i = 2;
+  while (i < file.length) {
+    const marker = file[i + 1];
+    if (marker >= 0xc0 && marker <= 0xc3) {
+      assert.equal(file.readUInt16BE(i + 7), 1200, 'rộng phải 1200');
+      assert.equal(file.readUInt16BE(i + 5), 630, 'cao phải 630');
+      return;
+    }
+    i += 2 + file.readUInt16BE(i + 2);
+  }
+  assert.fail('không tìm thấy kích thước JPEG');
+});
+
+test('không còn nhắc tới bòn bon', () => {
+  assert.ok(!/bòn bon/i.test(html));
+});

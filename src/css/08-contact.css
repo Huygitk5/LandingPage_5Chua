@@ -7,20 +7,30 @@
   padding: 22px 20px; box-shadow: var(--shadow);
 }
 .order-form h3, .contact-info h3 { margin-bottom: 14px; }
+/* Hai khung cùng chiều cao: ô ghi chú (form) và bản đồ (thông tin) co giãn để lấp phần còn dư */
+.order-form, .contact-info { display: flex; flex-direction: column; }
 
 .order-form label { display: block; margin: 14px 0 6px; font-weight: 600; font-size: 0.95rem; }
 .order-form input, .order-form select, .order-form textarea {
   width: 100%; padding: 11px 12px; border: 1.5px solid #cfc5ac; border-radius: 10px;
   font: inherit; color: var(--ink); background: #fff;
 }
-.order-form textarea { resize: vertical; }
+.order-form textarea { resize: vertical; flex: 1; min-height: 96px; }
+/* Mũi tên của ô chọn tự vẽ để có khoảng cách với viền phải (mũi tên mặc định của trình duyệt dính sát viền) */
+.order-form select {
+  -webkit-appearance: none; appearance: none; padding-right: 40px; cursor: pointer;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232f5d3a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 14px center / 14px;
+}
 .order-form input:focus, .order-form select:focus, .order-form textarea:focus {
   outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(47, 93, 58, 0.18);
 }
 .order-form .is-invalid { border-color: #b3261e; }
 .order-form .btn-block { margin-top: 20px; }
 .field-row { display: grid; gap: 0 12px; grid-template-columns: 1fr; }
-@media (min-width: 480px) { .field-row { grid-template-columns: 1.2fr 0.8fr; } }
+@media (min-width: 480px) {
+  .field-row { grid-template-columns: 1.2fr 0.8fr; }
+  .field-row-even { grid-template-columns: 1fr 1fr; }
+}
 
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
@@ -43,10 +53,10 @@
 .contact-list strong { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
 .contact-list a { overflow-wrap: anywhere; }
 
-.map { border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
-.map iframe { display: block; width: 100%; height: 240px; border: 0; }
+.map { display: flex; flex: 1; min-height: 240px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); }
+.map iframe { flex: 1; width: 100%; border: 0; }
 
 @media (min-width: 860px) {
-  .contact-grid { grid-template-columns: 1.1fr 0.9fr; gap: 32px; align-items: start; }
+  .contact-grid { grid-template-columns: 1.1fr 0.9fr; gap: 32px; }
   .order-form, .contact-info { padding: 28px; }
 }

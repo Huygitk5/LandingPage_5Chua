@@ -63,22 +63,32 @@ const PRODUCTS = [
   },
   {
     id: 'lan-ho-diep', group: 'hoa-lan', name: 'Lan hồ điệp', spec: 'Nhiều màu, nhiều kích cỡ', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Lan hồ điệp',
+    image: 'assets/img/lanhodiep.webp', imageAlt: 'Lan hồ điệp hoa trắng viền tím',
     desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
   },
   {
-    id: 'lan-rung', group: 'hoa-lan', name: 'Lan rừng', spec: 'Nhiều loại', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Lan rừng',
+    id: 'lan-cat', group: 'hoa-lan', name: 'Lan cát', spec: 'Nhiều màu', price: null,
+    image: 'assets/img/lancat.webp', imageAlt: 'Lan cát hoa màu cam',
+    desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
+  },
+  {
+    id: 'lan-dendro', group: 'hoa-lan', name: 'Lan dendro', spec: 'Nhiều màu', price: null,
+    image: 'assets/img/landendro.webp', imageAlt: 'Lan dendro hoa xanh viền tím',
+    desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
+  },
+  {
+    id: 'lan-rung-tim', group: 'hoa-lan', name: 'Lan rừng tím', spec: 'Hoa màu tím', price: null,
+    image: 'assets/img/lanrungtim.webp', imageAlt: 'Lan rừng hoa màu tím',
+    desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
+  },
+  {
+    id: 'lan-rung-trang', group: 'hoa-lan', name: 'Lan rừng trắng', spec: 'Hoa màu trắng', price: null,
+    image: 'assets/img/lanrungtrang.webp', imageAlt: 'Lan rừng hoa màu trắng',
     desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
   },
   {
     id: 'cacao-giong', group: 'cay-giong', name: 'Cây cacao giống', spec: 'Cây giống', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Cây cacao giống',
-    desc: 'Liên hệ để biết giống, kích cỡ cây và báo giá theo số lượng.', inStock: true,
-  },
-  {
-    id: 'bon-bon-giong', group: 'cay-giong', name: 'Cây bòn bon giống', spec: 'Cây giống', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Cây bòn bon giống',
+    image: 'assets/img/cacao.webp', imageAlt: 'Vườn ươm cây cacao giống',
     desc: 'Liên hệ để biết giống, kích cỡ cây và báo giá theo số lượng.', inStock: true,
   },
 ];
@@ -88,13 +98,23 @@ const PRODUCTS = [
 const tabsEl = document.getElementById('product-tabs');
 const gridEl = document.getElementById('product-grid');
 let activeGroup = PRODUCT_GROUPS[0].id;
+const ASK_LABEL = 'Hỏi giá qua Zalo';
+
+// Zalo không cho điền sẵn tin nhắn qua link, nên chép sẵn vào clipboard để khách dán vào ô chat.
+function copyAskMessage(link, product) {
+  const text = `Chào ${CONFIG.brand}, tôi muốn hỏi giá ${product.name}.`;
+  navigator.clipboard?.writeText(text).then(() => {
+    link.textContent = 'Đã chép tin nhắn, dán vào Zalo';
+    setTimeout(() => { link.textContent = ASK_LABEL; }, 4000);
+  }).catch(() => {}); // không chép được thì khách tự gõ, link vẫn mở Zalo bình thường
+}
 
 function productCard(product) {
   const price = formatPrice(product.price);
 
   const img = el('img', {
     src: product.image, alt: product.imageAlt || product.name,
-    width: 904, height: 1130, loading: 'lazy',
+    width: 800, height: 800, loading: 'lazy',
   });
   // Ảnh thật bấm được để phóng to; ảnh tạm thì không.
   const picture = product.image === PLACEHOLDER_IMG
@@ -110,8 +130,18 @@ function productCard(product) {
     product.inStock ? null : el('span', { class: 'product-badge' }, 'Hết hàng'),
   ]);
 
-  const orderBtn = el('button', { class: 'btn btn-primary', type: 'button', 'data-order': product.id },
-    product.inStock ? 'Đặt mua' : 'Hỏi hàng');
+  const orderBtn = el('button', {
+    class: price ? 'btn btn-primary' : 'link-btn', type: 'button', 'data-order': product.id,
+  }, product.inStock ? 'Đặt mua' : 'Hỏi hàng');
+
+  // Chưa có giá thì nút chính là hỏi giá qua Zalo; "Đặt mua" chỉ còn là link chữ phụ.
+  const actions = el('div', { class: 'product-actions' }, price ? [orderBtn] : [
+    el('a', {
+      class: 'btn btn-primary', href: `https://zalo.me/${CONFIG.zalo}`, target: '_blank', rel: 'noopener',
+      'data-ask': product.id,
+    }, ASK_LABEL),
+    orderBtn,
+  ]);
 
   // Giá nằm ngay dưới tên. Có giá thì quy cách đi kèm giá; chưa có giá thì hiện lời mời báo giá.
   const priceLine = price
@@ -123,11 +153,34 @@ function productCard(product) {
     priceLine,
     price ? null : el('p', { class: 'product-spec' }, product.spec),
     el('p', { class: 'product-desc' }, product.desc),
-    orderBtn,
+    actions,
   ]);
 
   return el('article', { class: 'product-card' }, [media, body]);
 }
+
+// Hai nút mũi tên: mỗi lần cuộn một thẻ; hết chỗ cuộn thì khóa nút.
+const prevBtn = document.getElementById('products-prev');
+const nextBtn = document.getElementById('products-next');
+
+function updateArrows() {
+  prevBtn.disabled = gridEl.scrollLeft <= 1;
+  nextBtn.disabled = gridEl.scrollLeft + gridEl.clientWidth >= gridEl.scrollWidth - 1;
+}
+
+function scrollCards(direction) {
+  const card = gridEl.firstElementChild;
+  if (!card) return;
+  const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(gridEl).columnGap || 0);
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gridEl.scrollBy({ left: direction * step, behavior: reduce ? 'auto' : 'smooth' });
+}
+
+prevBtn.addEventListener('click', () => scrollCards(-1));
+nextBtn.addEventListener('click', () => scrollCards(1));
+gridEl.addEventListener('scroll', updateArrows, { passive: true });
+if ('ResizeObserver' in window) new ResizeObserver(updateArrows).observe(gridEl);
+else window.addEventListener('resize', updateArrows);
 
 function renderGrid(animate) {
   gridEl.setAttribute('aria-labelledby', `tab-${activeGroup}`);
@@ -139,6 +192,8 @@ function renderGrid(animate) {
     });
   }
   gridEl.replaceChildren(...cards);
+  gridEl.scrollLeft = 0;
+  updateArrows();
 }
 
 // animate: chỉ bật khi người dùng đổi tab (lần hiển thị đầu tiên do hiệu ứng cuộn lo).
@@ -176,6 +231,11 @@ function renderTabs() {
 }
 
 gridEl.addEventListener('click', (e) => {
+  const askLink = e.target.closest('[data-ask]');
+  if (askLink) {
+    copyAskMessage(askLink, PRODUCTS.find((p) => p.id === askLink.dataset.ask));
+    return; // không chặn link: vẫn mở Zalo
+  }
   const orderBtn = e.target.closest('[data-order]');
   if (orderBtn) {
     selectProduct(orderBtn.dataset.order);
@@ -379,6 +439,33 @@ syncHeader();
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+/* 45-scrollspy.js */
+// Tô sáng mục menu của section đang xem (section nào đã cuộn qua 40% chiều cao màn hình thì tính là đang xem).
+const spyLinks = [...navEl.querySelectorAll('a[href^="#"]')];
+const spySections = spyLinks.map((a) => document.getElementById(a.getAttribute('href').slice(1)));
+let spyQueued = false;
+
+function syncSpy() {
+  spyQueued = false;
+  const line = window.innerHeight * 0.4;
+  let current = -1;
+  spySections.forEach((section, i) => {
+    if (section && section.getBoundingClientRect().top <= line) current = i;
+  });
+  spyLinks.forEach((a, i) => {
+    a.classList.toggle('is-active', i === current);
+    if (i === current) a.setAttribute('aria-current', 'true');
+    else a.removeAttribute('aria-current');
+  });
+}
+
+window.addEventListener('scroll', () => {
+  if (spyQueued) return;
+  spyQueued = true;
+  requestAnimationFrame(syncSpy);
+}, { passive: true });
+syncSpy();
+
 /* 50-reveal.js */
 // Hiện dần khi cuộn tới và số đếm lên. Tắt khi người dùng bật "giảm chuyển động".
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -497,6 +584,40 @@ for (const img of document.querySelectorAll('.about-photos img')) {
       open();
     }
   });
+}
+
+/* 70-hero-slides.js */
+// Ảnh ở hero tự chuyển sau mỗi 2 giây. Dừng khi rê chuột, khi tab bị ẩn, hoặc khi người dùng bật "giảm chuyển động".
+const slidesEl = document.getElementById('hero-slides');
+const slideImgs = [...slidesEl.querySelectorAll('.hero-slide')];
+const SLIDE_MS = 2000;
+let slideIndex = 0;
+let slideTimer = null;
+
+const slideDots = slideImgs.map(() => el('span', { class: 'hero-dot' }));
+slidesEl.append(el('div', { class: 'hero-dots', 'aria-hidden': 'true' }, slideDots));
+
+function showSlide(index) {
+  slideIndex = (index + slideImgs.length) % slideImgs.length;
+  slideImgs.forEach((img, i) => img.classList.toggle('is-active', i === slideIndex));
+  slideDots.forEach((dot, i) => dot.classList.toggle('is-active', i === slideIndex));
+}
+
+function startSlides() {
+  if (slideTimer) return;
+  slideTimer = setInterval(() => { if (!document.hidden) showSlide(slideIndex + 1); }, SLIDE_MS);
+}
+
+function stopSlides() {
+  clearInterval(slideTimer);
+  slideTimer = null;
+}
+
+showSlide(0);
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  startSlides();
+  slidesEl.addEventListener('pointerenter', stopSlides);
+  slidesEl.addEventListener('pointerleave', startSlides);
 }
 
 /* 99-ready.js */

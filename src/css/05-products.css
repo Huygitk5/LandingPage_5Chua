@@ -9,7 +9,24 @@
 .tab:hover { border-color: var(--honey); }
 .tab[aria-selected="true"] { background: var(--green); border-color: var(--green); color: #fff; }
 
-.product-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+/* Băng chuyền: hiện 3 thẻ (2 trên máy tính bảng, 1 trên điện thoại), cuộn bằng hai nút mũi tên */
+.carousel { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+.carousel-btn {
+  display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0;
+  border: 2px solid var(--green); border-radius: 50%; background: var(--paper); color: var(--green); cursor: pointer;
+  transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+.carousel-btn:hover:not(:disabled) { background: var(--green); color: #fff; }
+.carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.icon-flip { transform: scaleX(-1); }
+
+/* Đệm và margin âm bù nhau để bóng đổ và hiệu ứng nâng thẻ không bị cắt bởi vùng cuộn */
+.product-grid {
+  display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 8px;
+  padding: 12px 8px 26px; margin: -12px -8px -26px; scrollbar-width: none;
+}
+.product-grid::-webkit-scrollbar { display: none; }
+.product-grid > .product-card { flex: 0 0 100%; scroll-snap-align: start; }
 
 .product-card {
   display: flex; flex-direction: column; overflow: hidden;
@@ -22,7 +39,7 @@
 @keyframes card-in { from { opacity: 0; transform: translateY(16px); } }
 
 .product-media { position: relative; overflow: hidden; background: var(--honey-soft); }
-.product-media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 0.5s ease; }
+.product-media img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 40%; transition: transform 0.5s ease; }
 .product-card:hover .product-media img { transform: scale(1.06); }
 .product-zoom { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
 /* Nhãn chỉ dùng cho sản phẩm hết hàng */
@@ -47,14 +64,20 @@
 
 .product-spec { margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--green); }
 .product-desc { margin: 0 0 14px; font-size: 0.95rem; color: var(--muted); }
-.product-card .btn { width: 100%; margin-top: auto; }
+.product-actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+.product-card .btn { width: 100%; }
+.link-btn { padding: 4px; border: 0; background: none; font: inherit; font-weight: 600; color: var(--green); text-decoration: underline; cursor: pointer; }
+.link-btn:hover { color: var(--green-dark); }
 
 .products-note { margin: 28px 0 0; text-align: center; font-size: 0.9rem; color: var(--muted); }
-.noscript { text-align: center; grid-column: 1 / -1; }
+.noscript { text-align: center; flex: 1; }
 
 @media (min-width: 560px) {
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .carousel { gap: 12px; }
+  .carousel-btn { width: 44px; height: 44px; }
+  .product-grid > .product-card { flex-basis: calc((100% - 20px) / 2); }
 }
 @media (min-width: 900px) {
-  .product-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .product-grid { gap: 24px; }
+  .product-grid > .product-card { flex-basis: calc((100% - 48px) / 3); }
 }
