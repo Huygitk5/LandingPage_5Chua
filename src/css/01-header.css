@@ -13,12 +13,15 @@
 .header-inner { height: 100%; display: flex; align-items: center; gap: 12px; }
 
 .brand { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; margin-right: auto; }
-.brand-mark { width: 30px; height: 30px; color: var(--honey); }
-.brand-name { font-family: var(--font-head); font-weight: 700; font-size: 1.35rem; color: var(--green-dark); }
+.brand-mark { width: 38px; height: 38px; color: var(--honey); }
+.brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+.brand-name { font-family: var(--font-head); font-weight: 700; font-size: 1.3rem; color: var(--green-dark); }
+.brand-sub { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--honey-dark); }
 
 .nav { display: none; gap: 22px; }
 .nav a { text-decoration: none; font-weight: 500; color: var(--ink); padding: 6px 2px; border-bottom: 2px solid transparent; }
-.nav a:hover { color: var(--green-dark); border-color: var(--honey); }
+.nav a:hover, .nav a.is-active { color: var(--green-dark); border-color: var(--honey); }
+.nav a.is-active { font-weight: 600; }
 
 .header-call { padding: 8px 14px; }
 

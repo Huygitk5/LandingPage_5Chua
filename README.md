@@ -1,6 +1,6 @@
 # Landing page Năm Chùa (5 CHÙA)
 
-Trang bán mật ong, sữa ong chúa, tinh bột nghệ, hoa lan, cây cacao và bòn bon giống.
+Trang bán mật ong, sữa ong chúa, tinh bột nghệ, hoa lan và cây cacao giống.
 
 ## Cấu trúc
 

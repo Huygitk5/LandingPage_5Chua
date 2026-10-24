@@ -7,9 +7,17 @@
     </header>
 
     <div class="tabs" id="product-tabs" role="tablist" aria-label="Nhóm sản phẩm"></div>
-    <div class="product-grid" id="product-grid" role="tabpanel" aria-live="polite" data-reveal>
-      <noscript><p class="noscript">Vui lòng bật JavaScript để xem sản phẩm, hoặc gọi <a href="tel:{{phoneIntl}}">{{phoneDisplay}}</a> để được tư vấn.</p></noscript>
+    <div class="carousel">
+      <button class="carousel-btn" id="products-prev" type="button" aria-label="Xem sản phẩm trước" disabled>
+        <svg class="icon icon-flip" aria-hidden="true"><use href="#i-chevron"/></svg>
+      </button>
+      <div class="product-grid" id="product-grid" role="tabpanel" aria-live="polite" data-reveal>
+        <noscript><p class="noscript">Vui lòng bật JavaScript để xem sản phẩm, hoặc gọi <a href="tel:{{phoneIntl}}">{{phoneDisplay}}</a> để được tư vấn.</p></noscript>
+      </div>
+      <button class="carousel-btn" id="products-next" type="button" aria-label="Xem sản phẩm tiếp theo" disabled>
+        <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+      </button>
     </div>
-    <p class="products-note">Giá có thể thay đổi theo mùa vụ. Mua số lượng lớn xin liên hệ để có ưu đãi.</p>
+    <p class="products-note">Giá có thể thay đổi theo mùa vụ. Mua số lượng lớn xin liên hệ để có ưu đãi. Bấm “Hỏi giá qua Zalo” sẽ chép sẵn tin nhắn hỏi giá, quý khách chỉ cần dán vào ô chat.</p>
   </div>
 </section>

@@ -27,22 +27,32 @@ const PRODUCTS = [
   },
   {
     id: 'lan-ho-diep', group: 'hoa-lan', name: 'Lan hồ điệp', spec: 'Nhiều màu, nhiều kích cỡ', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Lan hồ điệp',
+    image: 'assets/img/lanhodiep.webp', imageAlt: 'Lan hồ điệp hoa trắng viền tím',
     desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
   },
   {
-    id: 'lan-rung', group: 'hoa-lan', name: 'Lan rừng', spec: 'Nhiều loại', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Lan rừng',
+    id: 'lan-cat', group: 'hoa-lan', name: 'Lan cát', spec: 'Nhiều màu', price: null,
+    image: 'assets/img/lancat.webp', imageAlt: 'Lan cát hoa màu cam',
+    desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
+  },
+  {
+    id: 'lan-dendro', group: 'hoa-lan', name: 'Lan dendro', spec: 'Nhiều màu', price: null,
+    image: 'assets/img/landendro.webp', imageAlt: 'Lan dendro hoa xanh viền tím',
+    desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
+  },
+  {
+    id: 'lan-rung-tim', group: 'hoa-lan', name: 'Lan rừng tím', spec: 'Hoa màu tím', price: null,
+    image: 'assets/img/lanrungtim.webp', imageAlt: 'Lan rừng hoa màu tím',
+    desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
+  },
+  {
+    id: 'lan-rung-trang', group: 'hoa-lan', name: 'Lan rừng trắng', spec: 'Hoa màu trắng', price: null,
+    image: 'assets/img/lanrungtrang.webp', imageAlt: 'Lan rừng hoa màu trắng',
     desc: 'Liên hệ để xem các loại đang có và nhận báo giá.', inStock: true,
   },
   {
     id: 'cacao-giong', group: 'cay-giong', name: 'Cây cacao giống', spec: 'Cây giống', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Cây cacao giống',
-    desc: 'Liên hệ để biết giống, kích cỡ cây và báo giá theo số lượng.', inStock: true,
-  },
-  {
-    id: 'bon-bon-giong', group: 'cay-giong', name: 'Cây bòn bon giống', spec: 'Cây giống', price: null,
-    image: PLACEHOLDER_IMG, imageAlt: 'Cây bòn bon giống',
+    image: 'assets/img/cacao.webp', imageAlt: 'Vườn ươm cây cacao giống',
     desc: 'Liên hệ để biết giống, kích cỡ cây và báo giá theo số lượng.', inStock: true,
   },
 ];
