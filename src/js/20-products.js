@@ -76,8 +76,7 @@ function scrollCards(direction) {
   const card = gridEl.firstElementChild;
   if (!card) return;
   const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(gridEl).columnGap || 0);
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  gridEl.scrollBy({ left: direction * step, behavior: reduce ? 'auto' : 'smooth' });
+  gridEl.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
 }
 
 prevBtn.addEventListener('click', () => scrollCards(-1));

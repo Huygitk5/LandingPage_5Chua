@@ -50,9 +50,8 @@
 }
 
 @media (min-width: 860px) {
-  .nav { display: flex; }
+  .nav { display: flex; margin-right: auto; }
   .nav-toggle { display: none; }
   .brand { margin-right: 0; }
   .header-inner { gap: 32px; }
-  .nav { margin-right: auto; }
 }

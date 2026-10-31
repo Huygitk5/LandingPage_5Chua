@@ -1,3 +1,6 @@
+// Người dùng bật "giảm chuyển động" thì reducedMotion.matches = true. Dùng chung cho mọi hiệu ứng.
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 // Tạo phần tử DOM: el('div', { class: 'x', 'data-id': 1 }, 'text' | node | [con...])
 function el(tag, attrs, children) {
   const node = document.createElement(tag);
