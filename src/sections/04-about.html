@@ -1,24 +1,55 @@
-<section class="section about" id="gioi-thieu">
+<section class="chapter about" id="gioi-thieu">
   <svg class="leaf leaf-about" aria-hidden="true"><use href="#i-leafshape"/></svg>
 
-  <div class="container about-inner">
-    <div class="about-copy" data-reveal>
-      <p class="eyebrow">Giới thiệu</p>
-      <h2>Câu chuyện của {{brand}}</h2>
-      <p>{{brand}} là cơ sở nuôi ong khởi nghiệp từ năm {{since}} tại {{address}}. Mật ong và sữa ong chúa được nuôi và thu hoạch ngay tại vườn.</p>
-      <p>Bên cạnh các sản phẩm từ ong, cơ sở còn cung cấp tinh bột nghệ, hoa lan (hồ điệp, lan cát, dendro, lan rừng) cùng cây cacao giống cho bà con làm vườn.</p>
-      <p>Mọi sản phẩm đều được cam kết chất lượng.</p>
+  <div class="container">
+    <header class="chapter-head">
+      <span class="chapter-node" aria-hidden="true"></span>
+      <span class="chapter-no" aria-hidden="true">01</span>
+      <div class="chapter-title" data-reveal>
+        <p class="eyebrow">Vườn ong</p>
+        <h2>Câu chuyện của {{brand}}</h2>
+      </div>
+    </header>
 
-      <ul class="stats">
-        <li><strong class="stat-num" data-count="30" data-suffix="+">30+</strong><span>năm nuôi ong</span></li>
-        <li><strong class="stat-num" data-count="products">9</strong><span>sản phẩm</span></li>
-        <li><strong class="stat-num" data-count="100" data-suffix="%">100%</strong><span>tự nhiên</span></li>
-      </ul>
+    <div class="about-inner">
+      <div class="about-copy" data-reveal>
+        <p>{{brand}} là cơ sở nuôi ong khởi nghiệp từ năm {{since}} tại {{address}}. Mật ong và sữa ong chúa được nuôi và thu hoạch ngay tại vườn.</p>
+        <p>Bên cạnh các sản phẩm từ ong, cơ sở còn cung cấp tinh bột nghệ, hoa lan (hồ điệp, lan cát, dendro, lan rừng) cùng cây cacao giống cho bà con làm vườn.</p>
+        <p>Mọi sản phẩm đều được cam kết chất lượng.</p>
+
+        <ul class="stats">
+          <li><strong class="stat-num" data-count="30" data-suffix="+">30+</strong><span>năm nuôi ong</span></li>
+          <li><strong class="stat-num" data-count="products">9</strong><span>sản phẩm</span></li>
+          <li><strong class="stat-num" data-count="100" data-suffix="%">100%</strong><span>tự nhiên</span></li>
+        </ul>
+      </div>
+
+      <div class="about-photos" data-reveal data-delay="2">
+        <img src="assets/img/intro3.webp" width="600" height="1200" loading="lazy" alt="Cầu ong nhiều mật được lấy từ thùng nuôi">
+        <img src="assets/img/intro2.webp" width="600" height="1200" loading="lazy" alt="Chủ vườn {{brand}}">
+      </div>
     </div>
 
-    <div class="about-photos" data-reveal data-delay="2">
-      <img src="assets/img/intro3.webp" width="600" height="1200" loading="lazy" alt="Cầu ong nhiều mật được lấy từ thùng nuôi">
-      <img src="assets/img/intro2.webp" width="600" height="1200" loading="lazy" alt="Chủ vườn {{brand}}">
-    </div>
+    <h3 class="reasons-title">Vì sao chọn {{brand}}</h3>
+    <ul class="reasons" data-stagger>
+      <li>
+        <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
+        <p><strong>Hơn 30 năm làm ong</strong>Khởi nghiệp nuôi ong từ năm {{since}} tại Chợ Lách, Bến Tre.</p>
+      </li>
+      <li>
+        <svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg>
+        <p><strong>Tự nhiên, rõ nguồn gốc</strong>Mật ong và sữa ong chúa nuôi, thu hoạch tại vườn. Tinh bột nghệ ghi rõ do công ty sản xuất.</p>
+      </li>
+      <li>
+        <svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg>
+        <p><strong>Một nơi, nhiều sản phẩm</strong>Từ mật ong, sữa ong chúa, tinh bột nghệ đến hoa lan, cây cacao giống.</p>
+      </li>
+      <li>
+        <svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>
+        <p><strong>Mua nhiều có ưu đãi</strong>Giá niêm yết rõ ràng. Mua số lượng lớn xin gọi để có giá tốt hơn.</p>
+      </li>
+    </ul>
+
+    <p class="chapter-next"><a href="#san-pham">Từ khu vườn ấy, đây là những gì {{brand}} gửi đến quý khách <span aria-hidden="true">&darr;</span></a></p>
   </div>
 </section>

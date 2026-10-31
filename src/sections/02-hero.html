@@ -1,6 +1,16 @@
-<section class="hero wave-bottom" id="trang-chu">
+<section class="hero" id="trang-chu">
   <svg class="leaf leaf-1" aria-hidden="true"><use href="#i-leafshape"/></svg>
-  <svg class="leaf leaf-2" aria-hidden="true"><use href="#i-leafshape"/></svg>
+
+  <!-- Video dựng bằng tools/hero-video.py. JS tự phát (trừ khi người dùng bật "giảm chuyển động"). -->
+  <div class="hero-media">
+    <video class="hero-video" id="hero-video" width="540" height="960" muted loop playsinline preload="auto"
+           poster="assets/video/hero-poster-sm.webp" data-poster-lg="assets/video/hero-poster.webp"
+           aria-label="Video ngắn: ong hút mật, vườn ong Chợ Lách, bánh tổ mật, mật ong nguyên chất, sữa ong chúa, hoa lan và cây cacao giống của {{brand}}">
+      <!-- Máy tính dùng khổ 4:5, điện thoại khổ 9:16. Trình duyệt không hiểu media thì lấy bản đầu. -->
+      <source src="assets/video/hero.mp4" type="video/mp4" media="(min-width: 860px)">
+      <source src="assets/video/hero-sm.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <div class="container hero-inner">
     <div class="hero-copy" data-reveal>
@@ -17,20 +27,13 @@
           <span>Nhắn Zalo</span>
         </a>
       </div>
-      <a class="hero-link" href="#san-pham">Xem sản phẩm &darr;</a>
+      <ul class="hero-facts">
+        <li>Nuôi, thu hoạch tại vườn</li>
+        <li>Ong, lan, cây giống</li>
+        <li>Ưu đãi mua số lượng lớn</li>
+      </ul>
     </div>
-
-    <figure class="hero-figure" data-reveal data-delay="2">
-      <!-- Video dựng bằng tools/hero-video.py. JS tự phát (trừ khi người dùng bật "giảm chuyển động"). -->
-      <div class="hero-media">
-        <video class="hero-video" id="hero-video" width="540" height="960" muted loop playsinline preload="auto"
-               poster="assets/video/hero-poster-sm.webp" data-poster-lg="assets/video/hero-poster.webp"
-               aria-label="Video ngắn: ong hút mật, vườn ong Chợ Lách, bánh tổ mật, mật ong nguyên chất, sữa ong chúa, hoa lan và cây cacao giống của {{brand}}">
-          <!-- Máy tính dùng khổ 4:5, điện thoại khổ 9:16. Trình duyệt không hiểu media thì lấy bản đầu. -->
-          <source src="assets/video/hero.mp4" type="video/mp4" media="(min-width: 860px)">
-          <source src="assets/video/hero-sm.mp4" type="video/mp4">
-        </video>
-      </div>
-    </figure>
   </div>
+
+  <a class="hero-scroll" href="#gioi-thieu">Câu chuyện bắt đầu <span aria-hidden="true">&darr;</span></a>
 </section>

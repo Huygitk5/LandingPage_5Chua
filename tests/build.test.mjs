@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { build } from '../build.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SECTION_IDS = ['trang-chu', 'gioi-thieu', 'san-pham', 'vi-sao', 'cach-dat-hang', 'lien-he'];
+const SECTION_IDS = ['trang-chu', 'gioi-thieu', 'san-pham', 'cach-dat-hang', 'lien-he'];
 
 build();
 const html = readFileSync(join(root, 'index.html'), 'utf8');
@@ -57,6 +57,35 @@ test('link nhóm sản phẩm ở chân trang trỏ tới nhóm có thật', () 
   const links = [...html.matchAll(/data-group-link="([\w-]+)"/g)].map((m) => m[1]);
   assert.ok(links.length > 0, 'chân trang chưa có link nhóm sản phẩm');
   for (const id of links) assert.ok(groupIds.includes(id), `không có nhóm sản phẩm "${id}"`);
+});
+
+test('4 chương đánh số 01–04 đúng thứ tự, mỗi chương có nút trên đường bay', () => {
+  const chapters = [...html.matchAll(
+    /<section class="chapter[^"]*" id="([\w-]+)">[\s\S]*?<span class="chapter-node"[^>]*><\/span>\s*<span class="chapter-no"[^>]*>(\d\d)<\/span>/g,
+  )].map((m) => [m[1], m[2]]);
+  assert.deepEqual(chapters, [['gioi-thieu', '01'], ['san-pham', '02'], ['cach-dat-hang', '03'], ['lien-he', '04']]);
+});
+
+test('không còn phần cũ đã gộp (vi-sao, dải cam kết, viền sóng)', () => {
+  assert.ok(!html.includes('vi-sao'), 'còn nhắc tới #vi-sao');
+  assert.ok(!/class="trust"/.test(html), 'còn dải cam kết riêng');
+  assert.ok(!/wave-(top|bottom)/.test(html), 'còn viền sóng');
+});
+
+test('đường bay và cột chương có đủ, link trỏ đúng 4 chương', () => {
+  assert.match(html, /<div class="story" id="story">/);
+  assert.match(html, /id="flight-path"/);
+  const rail = html.match(/<nav class="chapter-rail"[\s\S]*?<\/nav>/);
+  assert.ok(rail, 'thiếu cột chương');
+  const hrefs = [...rail[0].matchAll(/href="#([\w-]+)"/g)].map((m) => m[1]);
+  assert.deepEqual(hrefs, ['gioi-thieu', 'san-pham', 'cach-dat-hang', 'lien-he']);
+});
+
+test('phiếu đặt hàng nằm trong chương 03', () => {
+  const start = html.indexOf('id="cach-dat-hang"');
+  const form = html.indexOf('id="order-form"');
+  const end = html.indexOf('id="lien-he"');
+  assert.ok(start > 0 && start < form && form < end, 'phiếu phải nằm giữa chương 03 và chương 04');
 });
 
 test('bundle CSS và JS được tạo', () => {
