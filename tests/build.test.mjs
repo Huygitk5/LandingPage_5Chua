@@ -37,6 +37,15 @@ test('mọi đường dẫn local (src/href) đều trỏ tới file có thật'
   }
 });
 
+test('video hero có file mp4 và poster thật', () => {
+  const src = html.match(/<source src="(assets\/video\/[^"]+\.mp4)"/);
+  const poster = html.match(/poster="(assets\/video\/[^"]+)"/);
+  assert.ok(src && poster, 'thiếu video hoặc poster ở hero');
+  assert.ok(existsSync(join(root, src[1])), `không tìm thấy ${src[1]}`);
+  assert.ok(existsSync(join(root, poster[1])), `không tìm thấy ${poster[1]}`);
+  assert.match(html, /<video[^>]*\bmuted\b[^>]*\bplaysinline\b/, 'video phải muted + playsinline để tự phát trên di động');
+});
+
 test('bundle CSS và JS được tạo', () => {
   assert.ok(readFileSync(join(root, 'assets', 'styles.css'), 'utf8').length > 100);
   assert.ok(readFileSync(join(root, 'assets', 'app.js'), 'utf8').length > 100);

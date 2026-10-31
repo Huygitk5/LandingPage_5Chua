@@ -21,13 +21,13 @@
     </div>
 
     <figure class="hero-figure" data-reveal data-delay="2">
-      <div class="hero-slides" id="hero-slides">
-        <img class="hero-slide is-active" src="assets/img/intro1.webp" width="583" height="1200" alt="Dãy thùng nuôi ong dưới tán vườn cây ở Chợ Lách, Bến Tre" fetchpriority="high">
-        <img class="hero-slide" src="assets/img/matong.webp" width="904" height="1200" loading="lazy" alt="Hai chai mật ong nguyên chất của {{brand}}">
-        <img class="hero-slide" src="assets/img/suaongchua.webp" width="720" height="960" loading="lazy" alt="Các hũ sữa ong chúa nguyên chất">
-        <img class="hero-slide" src="assets/img/botnghe.webp" width="904" height="1200" loading="lazy" alt="Các hũ tinh bột nghệ">
-        <img class="hero-slide" src="assets/img/lanhodiep.webp" width="800" height="1067" loading="lazy" alt="Lan hồ điệp hoa trắng viền tím">
-        <img class="hero-slide" src="assets/img/cacao.webp" width="800" height="1063" loading="lazy" alt="Vườn ươm cây cacao giống">
+      <!-- Video dựng bằng tools/hero-video.py. JS tự phát (trừ khi người dùng bật "giảm chuyển động"). -->
+      <div class="hero-media">
+        <video class="hero-video" id="hero-video" width="720" height="900" muted loop playsinline preload="auto"
+               poster="assets/video/hero-poster.webp"
+               aria-label="Video ngắn: ong hút mật, vườn ong Chợ Lách, bánh tổ mật, mật ong nguyên chất, sữa ong chúa, hoa lan và cây cacao giống của {{brand}}">
+          <source src="assets/video/hero.mp4" type="video/mp4">
+        </video>
       </div>
     </figure>
   </div>
