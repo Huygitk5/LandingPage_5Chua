@@ -30,16 +30,28 @@ CH="/c/Program Files/Google/Chrome/Application/chrome.exe"
 
 ---
 
+## Tiến độ
+
+| Task | Trạng thái | Commit | Ghi chú |
+|---|---|---|---|
+| 0. Commit phần việc trước | ✅ Xong | a7d8fe9 | 10/10 test đạt |
+| 1. Video không chữ, 2 khổ | ✅ Xong | 92fe972 | lg 3,7MB (720×900), sm 1,7MB (540×960, crf 34 thay vì 30 cho nhẹ) |
+| 2. Cấu trúc HTML theo chương | ✅ Xong | d363f71 | 14/14 test đạt |
+| 3. CSS liền mạch | ⏳ Đang làm | | |
+| 4. JS đường bay + cột chương | ⬜ Chưa làm | | |
+
+---
+
 ### Task 0: Commit phần việc trước đó trong phiên
 
 **Files:** toàn bộ thay đổi chưa commit hiện có (video hero, `tools/`, chân trang mới, dọn CSS/JS, test).
 
-- [ ] **Step 1: Chạy test trên trạng thái hiện tại**
+- [x] **Step 1: Chạy test trên trạng thái hiện tại**
 
 Run: `node build.mjs && node --test tests/build.test.mjs`
 Expected: `ℹ pass 10`, `ℹ fail 0`
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add -A
@@ -60,7 +72,7 @@ git commit -m "Add hero video, richer footer and small CSS/JS cleanups"
 **Interfaces:**
 - Produces: `assets/video/hero.mp4`, `hero-poster.webp` (720×900); `assets/video/hero-sm.mp4`, `hero-poster-sm.webp` (540×960). Thẻ `<video id="hero-video">` có `poster` = bản điện thoại, `data-poster-lg` = bản máy tính.
 
-- [ ] **Step 1: Sửa test video cho hai poster**
+- [x] **Step 1: Sửa test video cho hai poster**
 
 Trong `tests/build.test.mjs`, thay test `'video hero có bản máy tính, bản điện thoại và poster thật'` bằng:
 
@@ -80,12 +92,12 @@ test('video hero có bản máy tính, bản điện thoại và poster cho từ
 });
 ```
 
-- [ ] **Step 2: Chạy test, xác nhận FAIL**
+- [x] **Step 2: Chạy test, xác nhận FAIL**
 
 Run: `node build.mjs && node --test tests/build.test.mjs`
 Expected: FAIL `thiếu poster hoặc data-poster-lg ở hero`
 
-- [ ] **Step 3: Viết lại `tools/hero-video.py`**
+- [x] **Step 3: Viết lại `tools/hero-video.py`**
 
 ```python
 """Dựng video ngắn (không chữ) cho phần mở đầu từ ảnh trong assets/img và tools/video-src.
@@ -384,7 +396,7 @@ if __name__ == '__main__':
             subprocess.run([sys.executable, __file__, key], check=True)
 ```
 
-- [ ] **Step 4: Dựng video, xóa font cache không còn dùng**
+- [x] **Step 4: Dựng video, xóa font cache không còn dùng**
 
 Run:
 ```bash
@@ -394,7 +406,7 @@ ls -la assets/video
 ```
 Expected: in ra `xong lg: ... 720x900, 42.0s` và `xong sm: ... 540x960, 42.0s`; thư mục có `hero.mp4`, `hero-sm.mp4`, `hero-poster.webp`, `hero-poster-sm.webp`.
 
-- [ ] **Step 5: Sửa thẻ video trong `src/sections/02-hero.html`**
+- [x] **Step 5: Sửa thẻ video trong `src/sections/02-hero.html`**
 
 Thay thẻ `<video ...>` hiện có bằng:
 
@@ -408,7 +420,7 @@ Thay thẻ `<video ...>` hiện có bằng:
         </video>
 ```
 
-- [ ] **Step 6: Đổi poster theo khổ trong `src/js/70-hero-video.js`**
+- [x] **Step 6: Đổi poster theo khổ trong `src/js/70-hero-video.js`**
 
 Ngay sau dòng `if (heroVideo) {`, thêm:
 
@@ -419,12 +431,12 @@ Ngay sau dòng `if (heroVideo) {`, thêm:
   }
 ```
 
-- [ ] **Step 7: Chạy test, xác nhận PASS**
+- [x] **Step 7: Chạy test, xác nhận PASS**
 
 Run: `node build.mjs && node --check assets/app.js && node --test tests/build.test.mjs`
 Expected: `ℹ fail 0`
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add -A tools assets/video src/sections/02-hero.html src/js/70-hero-video.js tests/build.test.mjs index.html assets/app.js .gitignore
@@ -444,7 +456,7 @@ git commit -m "Render caption-free hero video in desktop (4:5) and mobile (9:16)
 **Interfaces:**
 - Produces (dùng ở Task 3, 4): `<div class="story" id="story">` bọc 4 chương; mỗi chương `<section class="chapter …" id="…">` có `<header class="chapter-head">` chứa `<span class="chapter-node">`, `<span class="chapter-no">NN</span>`, `<div class="chapter-title">`; cuối chương `<p class="chapter-next"><a href="#…">…<span aria-hidden="true">↓</span></a></p>`; `<div class="flight-path" id="flight-path">` chứa `.flight-path-fill` và `svg.flight-bee`; `<nav class="chapter-rail" id="chapter-rail">` với 4 link `<a href="#id"><span class="rail-label">…</span><span class="rail-no">NN</span></a>`; mở đầu có `.hero-media`, `.hero-copy`, `ul.hero-facts`, `a.hero-scroll`.
 
-- [ ] **Step 1: Viết test (thất bại) cho cấu trúc chương**
+- [x] **Step 1: Viết test (thất bại) cho cấu trúc chương**
 
 Trong `tests/build.test.mjs`: đổi
 `const SECTION_IDS = ['trang-chu', 'gioi-thieu', 'san-pham', 'vi-sao', 'cach-dat-hang', 'lien-he'];`
@@ -483,12 +495,12 @@ test('phiếu đặt hàng nằm trong chương 03', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test, xác nhận FAIL**
+- [x] **Step 2: Chạy test, xác nhận FAIL**
 
 Run: `node build.mjs && node --test tests/build.test.mjs`
 Expected: 4 test mới FAIL (không tìm thấy chương / còn `vi-sao`...).
 
-- [ ] **Step 3: `src/layout.html` — bọc 4 chương trong `.story`, thêm cột chương**
+- [x] **Step 3: `src/layout.html` — bọc 4 chương trong `.story`, thêm cột chương**
 
 Thay khối từ `<main>` tới `<!-- @include sections/09-footer.html -->` bằng:
 
@@ -507,7 +519,7 @@ Thay khối từ `<main>` tới `<!-- @include sections/09-footer.html -->` bằ
   <!-- @include sections/09-footer.html -->
 ```
 
-- [ ] **Step 4: Tạo `src/sections/03-flight-path.html`**
+- [x] **Step 4: Tạo `src/sections/03-flight-path.html`**
 
 ```html
 <!-- Đường bay của ong nối các chương. Vị trí, độ dài và tiến độ do src/js/48-story.js tính. -->
@@ -523,7 +535,7 @@ Thay khối từ `<main>` tới `<!-- @include sections/09-footer.html -->` bằ
 </div>
 ```
 
-- [ ] **Step 5: Tạo `src/sections/06-chapter-rail.html`**
+- [x] **Step 5: Tạo `src/sections/06-chapter-rail.html`**
 
 ```html
 <nav class="chapter-rail" id="chapter-rail" aria-label="Các chương">
@@ -534,7 +546,7 @@ Thay khối từ `<main>` tới `<!-- @include sections/09-footer.html -->` bằ
 </nav>
 ```
 
-- [ ] **Step 6: Viết lại `src/sections/02-hero.html`**
+- [x] **Step 6: Viết lại `src/sections/02-hero.html`**
 
 ```html
 <section class="hero" id="trang-chu">
@@ -578,7 +590,7 @@ Thay khối từ `<main>` tới `<!-- @include sections/09-footer.html -->` bằ
 </section>
 ```
 
-- [ ] **Step 7: Viết lại `src/sections/04-about.html` (chương 01, gộp "Vì sao chọn")**
+- [x] **Step 7: Viết lại `src/sections/04-about.html` (chương 01, gộp "Vì sao chọn")**
 
 ```html
 <section class="chapter about" id="gioi-thieu">
@@ -638,7 +650,7 @@ Thay khối từ `<main>` tới `<!-- @include sections/09-footer.html -->` bằ
 </section>
 ```
 
-- [ ] **Step 8: `src/sections/05-products.html` (chương 02)**
+- [x] **Step 8: `src/sections/05-products.html` (chương 02)**
 
 Thay dòng mở `<section class="section products wave-top" id="san-pham">` bằng `<section class="chapter products" id="san-pham">`; thay khối `<header class="section-head" data-reveal>…</header>` bằng:
 
@@ -660,7 +672,7 @@ và ngay sau đoạn `<p class="products-note">…</p>` thêm:
     <p class="chapter-next"><a href="#cach-dat-hang">Chọn được sản phẩm rồi? Đặt hàng chỉ mất ba bước <span aria-hidden="true">&darr;</span></a></p>
 ```
 
-- [ ] **Step 9: Viết lại `src/sections/07-how-to-order.html` (chương 03, chứa phiếu)**
+- [x] **Step 9: Viết lại `src/sections/07-how-to-order.html` (chương 03, chứa phiếu)**
 
 ```html
 <section class="chapter steps" id="cach-dat-hang">
@@ -735,7 +747,7 @@ và ngay sau đoạn `<p class="products-note">…</p>` thêm:
 </section>
 ```
 
-- [ ] **Step 10: Viết lại `src/sections/08-contact.html` (chương 04)**
+- [x] **Step 10: Viết lại `src/sections/08-contact.html` (chương 04)**
 
 ```html
 <section class="chapter contact" id="lien-he">
@@ -785,7 +797,7 @@ và ngay sau đoạn `<p class="products-note">…</p>` thêm:
 </section>
 ```
 
-- [ ] **Step 11: Header và chân trang**
+- [x] **Step 11: Header và chân trang**
 
 `src/sections/01-header.html`: đổi `<a href="#cach-dat-hang">Cách đặt hàng</a>` thành `<a href="#cach-dat-hang">Đặt hàng</a>`.
 
@@ -800,7 +812,7 @@ và ngay sau đoạn `<p class="products-note">…</p>` thêm:
       </ul>
 ```
 
-- [ ] **Step 12: Xóa section cũ, chạy test**
+- [x] **Step 12: Xóa section cũ, chạy test**
 
 Run:
 ```bash
@@ -809,7 +821,7 @@ node build.mjs && node --check assets/app.js && node --test tests/build.test.mjs
 ```
 Expected: `ℹ fail 0` (14 test).
 
-- [ ] **Step 13: Commit**
+- [x] **Step 13: Commit**
 
 ```bash
 git add -A src tests index.html assets/app.js assets/styles.css
