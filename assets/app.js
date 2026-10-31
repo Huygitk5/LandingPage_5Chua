@@ -253,6 +253,14 @@ gridEl.addEventListener('click', (e) => {
   }
 });
 
+// Link nhóm sản phẩm (ở chân trang): chọn đúng tab, còn link tự cuộn tới #san-pham.
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('[data-group-link]');
+  if (link && PRODUCT_GROUPS.some((g) => g.id === link.dataset.groupLink)) {
+    setGroup(link.dataset.groupLink, false, true);
+  }
+});
+
 renderTabs();
 setGroup(activeGroup, false, false);
 

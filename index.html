@@ -52,7 +52,7 @@
       "addressRegion": "Bến Tre",
       "addressCountry": "VN"
     },
-    "sameAs": ["https://www.facebook.com/share/FeDVgkyZbCyMM3Yj/?mibextid=qi2Omg"]
+    "sameAs": ["https://www.facebook.com/hoa.oan.van.946796"]
   }
   </script>
 </head>
@@ -136,7 +136,9 @@
             <video class="hero-video" id="hero-video" width="720" height="900" muted loop playsinline preload="auto"
                    poster="assets/video/hero-poster.webp"
                    aria-label="Video ngắn: ong hút mật, vườn ong Chợ Lách, bánh tổ mật, mật ong nguyên chất, sữa ong chúa, hoa lan và cây cacao giống của Năm Chùa">
-              <source src="assets/video/hero.mp4" type="video/mp4">
+              <!-- Máy tính dùng bản lớn, điện thoại bản nhỏ. Trình duyệt không hiểu media thì lấy bản đầu (lớn). -->
+              <source src="assets/video/hero.mp4" type="video/mp4" media="(min-width: 860px)">
+              <source src="assets/video/hero-sm.mp4" type="video/mp4">
             </video>
           </div>
         </figure>
@@ -314,7 +316,7 @@
               </li>
               <li>
                 <svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg>
-                <span><strong>Facebook</strong><a href="https://www.facebook.com/share/FeDVgkyZbCyMM3Yj/?mibextid=qi2Omg" target="_blank" rel="noopener">Hòa Đoàn Văn</a></span>
+                <span><strong>Facebook</strong><a href="https://www.facebook.com/hoa.oan.van.946796" target="_blank" rel="noopener">Hòa Đoàn Văn</a></span>
               </li>
               <li>
                 <svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>
@@ -335,10 +337,60 @@
     </section>
   </main>
   <footer class="site-footer wave-top">
-    <div class="container footer-inner">
-      <p class="footer-brand">5 CHÙA &middot; Chuyên mọi sản phẩm về ong</p>
-      <p class="footer-meta">Tân Thiềng, Chợ Lách, Bến Tre &middot; <a href="tel:+84975332882">0975 332 882</a></p>
-      <p class="footer-meta">&copy; <span id="year">2026</span> Năm Chùa.</p>
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <a class="brand footer-logo" href="#trang-chu" aria-label="Năm Chùa – về đầu trang">
+          <svg class="icon brand-mark" aria-hidden="true"><use href="#i-logo"/></svg>
+          <span class="brand-text">
+            <span class="brand-name">5 CHÙA</span>
+            <span class="brand-sub">Nuôi ong từ 1992</span>
+          </span>
+        </a>
+        <p>Chuyên mọi sản phẩm về ong. Mật ong, sữa ong chúa, tinh bột nghệ, hoa lan và cây cacao giống tại Chợ Lách, Bến Tre.</p>
+        <div class="footer-social">
+          <a href="tel:+84975332882" aria-label="Gọi 0975 332 882"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg></a>
+          <a href="https://zalo.me/0975332882" target="_blank" rel="noopener" aria-label="Nhắn Zalo"><svg class="icon" aria-hidden="true"><use href="#i-zalo"/></svg></a>
+          <a href="https://www.facebook.com/hoa.oan.van.946796" target="_blank" rel="noopener" aria-label="Facebook Hòa Đoàn Văn"><svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg></a>
+        </div>
+      </div>
+
+      <nav class="footer-col" aria-label="Menu chân trang">
+        <h2 class="footer-title">Khám phá</h2>
+        <ul class="footer-list">
+          <li><a href="#gioi-thieu">Giới thiệu</a></li>
+          <li><a href="#san-pham">Sản phẩm</a></li>
+          <li><a href="#vi-sao">Vì sao chọn Năm Chùa</a></li>
+          <li><a href="#cach-dat-hang">Cách đặt hàng</a></li>
+          <li><a href="#lien-he">Liên hệ</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h2 class="footer-title">Sản phẩm</h2>
+        <!-- data-group-link: mở đúng tab nhóm sản phẩm (id trong src/js/10-products-data.js) -->
+        <ul class="footer-list">
+          <li><a href="#san-pham" data-group-link="ong-nghe">Mật ong, sữa ong chúa</a></li>
+          <li><a href="#san-pham" data-group-link="ong-nghe">Tinh bột nghệ</a></li>
+          <li><a href="#san-pham" data-group-link="hoa-lan">Hoa lan</a></li>
+          <li><a href="#san-pham" data-group-link="cay-giong">Cây cacao giống</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col footer-contact">
+        <h2 class="footer-title">Liên hệ</h2>
+        <ul class="footer-list">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+84975332882">0975 332 882</a></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:quochuydoan2005@gmail.com">quochuydoan2005@gmail.com</a></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg><a href="https://maps.app.goo.gl/nTjPbnh7qmrhTA2y8" target="_blank" rel="noopener">Tân Thiềng, Chợ Lách, Bến Tre</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; <span id="year">2026</span> Năm Chùa. Cơ sở nuôi ong từ năm 1992.</p>
+        <a href="#trang-chu">Lên đầu trang &uarr;</a>
+      </div>
     </div>
   </footer>
 

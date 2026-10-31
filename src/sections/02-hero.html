@@ -26,7 +26,9 @@
         <video class="hero-video" id="hero-video" width="720" height="900" muted loop playsinline preload="auto"
                poster="assets/video/hero-poster.webp"
                aria-label="Video ngắn: ong hút mật, vườn ong Chợ Lách, bánh tổ mật, mật ong nguyên chất, sữa ong chúa, hoa lan và cây cacao giống của {{brand}}">
-          <source src="assets/video/hero.mp4" type="video/mp4">
+          <!-- Máy tính dùng bản lớn, điện thoại bản nhỏ. Trình duyệt không hiểu media thì lấy bản đầu (lớn). -->
+          <source src="assets/video/hero.mp4" type="video/mp4" media="(min-width: 860px)">
+          <source src="assets/video/hero-sm.mp4" type="video/mp4">
         </video>
       </div>
     </figure>
