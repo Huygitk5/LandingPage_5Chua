@@ -143,11 +143,10 @@ p { margin: 0 0 1em; }
 }
 
 @media (min-width: 860px) {
-  .nav { display: flex; }
+  .nav { display: flex; margin-right: auto; }
   .nav-toggle { display: none; }
   .brand { margin-right: 0; }
   .header-inner { gap: 32px; }
-  .nav { margin-right: auto; }
 }
 
 /* 02-hero.css */
@@ -168,7 +167,8 @@ p { margin: 0 0 1em; }
 
 .hero-inner { position: relative; z-index: 1; display: grid; gap: 28px; align-items: center; }
 
-.hero-copy h1 { margin-bottom: 0.4em; }.lead { font-size: 1.1rem; color: var(--muted); max-width: 34em; }
+.hero-copy h1 { margin-bottom: 0.4em; }
+.lead { font-size: 1.1rem; color: var(--muted); max-width: 34em; }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0 14px; }
 .hero-link { font-weight: 600; text-decoration: none; }
@@ -188,7 +188,8 @@ p { margin: 0 0 1em; }
 @media (min-width: 860px) {
   .hero { padding: 56px 0 96px; }
   .hero-inner { grid-template-columns: 1.15fr 0.85fr; gap: 56px; }
-  .hero-figure { max-width: 420px; justify-self: end; }}
+  .hero-figure { max-width: 420px; justify-self: end; }
+}
 
 /* 03-trust.css */
 .trust { position: relative; background: var(--green); color: #fff; }
@@ -233,7 +234,6 @@ p { margin: 0 0 1em; }
 .about-photos img:hover { transform: scale(1.04); }
 .about-photos img:nth-child(2) { margin-top: 44px; object-position: center 25%; }
 
-
 .leaf-about { --s: 180px; --r: 150deg; right: -50px; top: 40px; --o: 0.12; }
 
 @media (min-width: 860px) {
@@ -275,8 +275,8 @@ p { margin: 0 0 1em; }
   display: flex; flex-direction: column; overflow: hidden;
   background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
   box-shadow: 0 2px 8px rgba(43, 42, 38, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.product-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
 .card-in { animation: card-in 0.45s ease both; animation-delay: calc(var(--i, 0) * 70ms); }
 @keyframes card-in { from { opacity: 0; transform: translateY(16px); } }
@@ -352,7 +352,7 @@ p { margin: 0 0 1em; }
 .steps .eyebrow { color: var(--honey); }
 .steps a { color: var(--honey); }
 
-.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; counter-reset: none; }
+.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
 .steps-list li { position: relative; padding-left: 64px; }
 .steps-list p { margin: 0; color: #e3ecdf; }
 
@@ -433,11 +433,45 @@ p { margin: 0 0 1em; }
 }
 
 /* 09-footer.css */
-.site-footer { background: var(--green-dark); color: #d6e2d2; text-align: center; padding: 60px 0 28px; }
-.site-footer p { margin: 0 0 4px; }
-.site-footer a { color: var(--honey); }
-.footer-brand { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; color: #fff; }
-.footer-meta { font-size: 0.9rem; }
+.site-footer { background: var(--green-dark); color: #d6e2d2; padding: 68px 0 0; }
+.site-footer a { color: #d6e2d2; text-decoration: none; transition: color 0.15s; }
+.site-footer a:hover { color: var(--honey); }
+
+/* Điện thoại: giới thiệu và liên hệ chiếm cả hàng, hai cột link nằm cạnh nhau */
+.footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 20px; padding-bottom: 40px; }
+.footer-about, .footer-contact { grid-column: 1 / -1; }
+
+.footer-logo .brand-name { color: #fff; }
+.footer-logo .brand-sub { color: var(--honey); }
+.footer-about p { margin: 14px 0 18px; font-size: 0.95rem; max-width: 30em; }
+
+.footer-social { display: flex; gap: 10px; }
+.site-footer .footer-social a {
+  display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px;
+  border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.08); color: #fff;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.site-footer .footer-social a:hover { background: var(--honey); border-color: var(--honey); color: var(--ink); }
+
+.footer-title {
+  margin: 0 0 14px; font-family: var(--font-body); font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--honey);
+}
+.footer-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 0.95rem; }
+.footer-contact li { display: flex; align-items: flex-start; gap: 10px; }
+.footer-contact .icon { margin-top: 3px; color: var(--honey); }
+.footer-contact a { overflow-wrap: anywhere; }
+
+.footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.85rem; color: #aebfab; }
+.footer-bottom-inner {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; padding-top: 18px; padding-bottom: 18px;
+}
+.footer-bottom p { margin: 0; }
+
+@media (min-width: 960px) {
+  .footer-grid { grid-template-columns: 1.4fr 0.8fr 0.9fr 1.2fr; gap: 40px; }
+  .footer-about, .footer-contact { grid-column: auto; }
+}
 
 /* Nút gọi / Zalo nổi, chỉ hiện trên điện thoại */
 .float-actions {

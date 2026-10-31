@@ -14,6 +14,9 @@ const CONFIG = {
 };
 
 /* 05-utils.js */
+// Người dùng bật "giảm chuyển động" thì reducedMotion.matches = true. Dùng chung cho mọi hiệu ứng.
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
 // Tạo phần tử DOM: el('div', { class: 'x', 'data-id': 1 }, 'text' | node | [con...])
 function el(tag, attrs, children) {
   const node = document.createElement(tag);
@@ -172,8 +175,7 @@ function scrollCards(direction) {
   const card = gridEl.firstElementChild;
   if (!card) return;
   const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(gridEl).columnGap || 0);
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  gridEl.scrollBy({ left: direction * step, behavior: reduce ? 'auto' : 'smooth' });
+  gridEl.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
 }
 
 prevBtn.addEventListener('click', () => scrollCards(-1));
@@ -250,6 +252,14 @@ gridEl.addEventListener('click', (e) => {
       meta: price ? `${price} / ${product.spec}` : `${product.spec} · Liên hệ báo giá`,
       productId: product.id,
     });
+  }
+});
+
+// Link nhóm sản phẩm (ở chân trang): chọn đúng tab, còn link tự cuộn tới #san-pham.
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('[data-group-link]');
+  if (link && PRODUCT_GROUPS.some((g) => g.id === link.dataset.groupLink)) {
+    setGroup(link.dataset.groupLink, false, true);
   }
 });
 
@@ -468,7 +478,6 @@ syncSpy();
 
 /* 50-reveal.js */
 // Hiện dần khi cuộn tới và số đếm lên. Tắt khi người dùng bật "giảm chuyển động".
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canObserve = 'IntersectionObserver' in window;
 
 function setupReveal() {
@@ -479,7 +488,7 @@ function setupReveal() {
       targets.push(child);
     });
   }
-  if (reduceMotion || !canObserve) return; // không thêm .reveal thì nội dung hiện sẵn
+  if (reducedMotion.matches || !canObserve) return; // không thêm .reveal thì nội dung hiện sẵn
 
   for (const node of targets) {
     node.classList.add('reveal');
@@ -527,7 +536,7 @@ function setupCounters() {
   const targetOf = (node) => (node.dataset.count === 'products' ? PRODUCTS.length : Number(node.dataset.count));
 
   for (const node of nodes) renderCount(node, targetOf(node)); // giá trị cuối cùng
-  if (reduceMotion || !canObserve) return;
+  if (reducedMotion.matches || !canObserve) return;
 
   for (const node of nodes) renderCount(node, 0);
   const io = new IntersectionObserver((entries) => {
@@ -591,11 +600,10 @@ for (const img of document.querySelectorAll('.about-photos img')) {
 // Người dùng bật "giảm chuyển động" thì chỉ thấy ảnh poster.
 const heroVideo = document.getElementById('hero-video');
 if (heroVideo) {
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let heroInView = true;
 
   const syncHeroVideo = () => {
-    if (reduceMotion.matches || !heroInView) heroVideo.pause();
+    if (reducedMotion.matches || !heroInView) heroVideo.pause();
     else heroVideo.play().catch(() => {}); // trình duyệt chặn tự phát thì giữ poster
   };
 
@@ -605,7 +613,7 @@ if (heroVideo) {
       syncHeroVideo();
     }).observe(heroVideo);
   }
-  if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', syncHeroVideo);
+  if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', syncHeroVideo);
   syncHeroVideo();
 }
 

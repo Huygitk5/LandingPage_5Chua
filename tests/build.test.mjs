@@ -37,13 +37,25 @@ test('mọi đường dẫn local (src/href) đều trỏ tới file có thật'
   }
 });
 
-test('video hero có file mp4 và poster thật', () => {
-  const src = html.match(/<source src="(assets\/video\/[^"]+\.mp4)"/);
+test('video hero có bản máy tính, bản điện thoại và poster thật', () => {
+  const sources = [...html.matchAll(/<source src="(assets\/video\/[^"]+\.mp4)"([^>]*)>/g)];
   const poster = html.match(/poster="(assets\/video\/[^"]+)"/);
-  assert.ok(src && poster, 'thiếu video hoặc poster ở hero');
-  assert.ok(existsSync(join(root, src[1])), `không tìm thấy ${src[1]}`);
-  assert.ok(existsSync(join(root, poster[1])), `không tìm thấy ${poster[1]}`);
+  assert.equal(sources.length, 2, 'cần 2 nguồn video (lớn + nhỏ)');
+  assert.ok(poster, 'thiếu poster ở hero');
+  assert.match(sources[0][2], /media="\(min-width: 860px\)"/, 'bản lớn phải đứng đầu và có media cho máy tính');
+  assert.doesNotMatch(sources[1][2], /media=/, 'bản nhỏ là nguồn mặc định, không có media');
+  for (const ref of [...sources.map((s) => s[1]), poster[1]]) {
+    assert.ok(existsSync(join(root, ref)), `không tìm thấy ${ref}`);
+  }
   assert.match(html, /<video[^>]*\bmuted\b[^>]*\bplaysinline\b/, 'video phải muted + playsinline để tự phát trên di động');
+});
+
+test('link nhóm sản phẩm ở chân trang trỏ tới nhóm có thật', () => {
+  const data = readFileSync(join(root, 'src', 'js', '10-products-data.js'), 'utf8');
+  const groupIds = [...data.matchAll(/\{ id: '([\w-]+)', label:/g)].map((m) => m[1]);
+  const links = [...html.matchAll(/data-group-link="([\w-]+)"/g)].map((m) => m[1]);
+  assert.ok(links.length > 0, 'chân trang chưa có link nhóm sản phẩm');
+  for (const id of links) assert.ok(groupIds.includes(id), `không có nhóm sản phẩm "${id}"`);
 });
 
 test('bundle CSS và JS được tạo', () => {

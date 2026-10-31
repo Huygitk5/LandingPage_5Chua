@@ -5,10 +5,11 @@ mở dần. Mọi chuyển động tuần hoàn theo độ dài video nên video
 
 Chạy:   pip install pillow imageio-ffmpeg
         python tools/hero-video.py
-Xuất:   assets/video/hero.mp4, assets/video/hero-poster.webp
+Xuất:   assets/video/hero.mp4 (máy tính), hero-sm.mp4 (điện thoại), hero-poster.webp
 """
 import math
 import random
+import subprocess
 from pathlib import Path
 
 import imageio_ffmpeg
@@ -339,6 +340,15 @@ def main():
     writer.close()
     poster.save(OUT / 'hero-poster.webp', quality=80)
     print(f'xong: {video} ({video.stat().st_size // 1024} KB, {T:.1f}s)')
+
+    # Bản nhỏ cho điện thoại (khung hero trên điện thoại rộng tối đa 360px)
+    small = OUT / 'hero-sm.mp4'
+    subprocess.run([
+        imageio_ffmpeg.get_ffmpeg_exe(), '-v', 'error', '-y', '-i', str(video),
+        '-vf', 'scale=480:600:flags=lanczos', '-c:v', 'libx264', '-crf', '32', '-preset', 'slow',
+        '-profile:v', 'main', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-an', str(small),
+    ], check=True)
+    print(f'xong: {small} ({small.stat().st_size // 1024} KB)')
 
 
 if __name__ == '__main__':

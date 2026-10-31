@@ -5,7 +5,7 @@
 .steps .eyebrow { color: var(--honey); }
 .steps a { color: var(--honey); }
 
-.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; counter-reset: none; }
+.steps-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
 .steps-list li { position: relative; padding-left: 64px; }
 .steps-list p { margin: 0; color: #e3ecdf; }
 

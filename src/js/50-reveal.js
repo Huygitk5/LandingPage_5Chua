@@ -1,5 +1,4 @@
 // Hiện dần khi cuộn tới và số đếm lên. Tắt khi người dùng bật "giảm chuyển động".
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const canObserve = 'IntersectionObserver' in window;
 
 function setupReveal() {
@@ -10,7 +9,7 @@ function setupReveal() {
       targets.push(child);
     });
   }
-  if (reduceMotion || !canObserve) return; // không thêm .reveal thì nội dung hiện sẵn
+  if (reducedMotion.matches || !canObserve) return; // không thêm .reveal thì nội dung hiện sẵn
 
   for (const node of targets) {
     node.classList.add('reveal');
@@ -58,7 +57,7 @@ function setupCounters() {
   const targetOf = (node) => (node.dataset.count === 'products' ? PRODUCTS.length : Number(node.dataset.count));
 
   for (const node of nodes) renderCount(node, targetOf(node)); // giá trị cuối cùng
-  if (reduceMotion || !canObserve) return;
+  if (reducedMotion.matches || !canObserve) return;
 
   for (const node of nodes) renderCount(node, 0);
   const io = new IntersectionObserver((entries) => {

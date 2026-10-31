@@ -76,8 +76,7 @@ function scrollCards(direction) {
   const card = gridEl.firstElementChild;
   if (!card) return;
   const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(gridEl).columnGap || 0);
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  gridEl.scrollBy({ left: direction * step, behavior: reduce ? 'auto' : 'smooth' });
+  gridEl.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
 }
 
 prevBtn.addEventListener('click', () => scrollCards(-1));
@@ -154,6 +153,14 @@ gridEl.addEventListener('click', (e) => {
       meta: price ? `${price} / ${product.spec}` : `${product.spec} · Liên hệ báo giá`,
       productId: product.id,
     });
+  }
+});
+
+// Link nhóm sản phẩm (ở chân trang): chọn đúng tab, còn link tự cuộn tới #san-pham.
+document.addEventListener('click', (e) => {
+  const link = e.target.closest('[data-group-link]');
+  if (link && PRODUCT_GROUPS.some((g) => g.id === link.dataset.groupLink)) {
+    setGroup(link.dataset.groupLink, false, true);
   }
 });
 
