@@ -586,38 +586,27 @@ for (const img of document.querySelectorAll('.about-photos img')) {
   });
 }
 
-/* 70-hero-slides.js */
-// Ảnh ở hero tự chuyển sau mỗi 2 giây. Dừng khi rê chuột, khi tab bị ẩn, hoặc khi người dùng bật "giảm chuyển động".
-const slidesEl = document.getElementById('hero-slides');
-const slideImgs = [...slidesEl.querySelectorAll('.hero-slide')];
-const SLIDE_MS = 2000;
-let slideIndex = 0;
-let slideTimer = null;
+/* 70-hero-video.js */
+// Video hero: tự phát khi đang nhìn thấy, tạm dừng khi cuộn khỏi màn hình.
+// Người dùng bật "giảm chuyển động" thì chỉ thấy ảnh poster.
+const heroVideo = document.getElementById('hero-video');
+if (heroVideo) {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let heroInView = true;
 
-const slideDots = slideImgs.map(() => el('span', { class: 'hero-dot' }));
-slidesEl.append(el('div', { class: 'hero-dots', 'aria-hidden': 'true' }, slideDots));
+  const syncHeroVideo = () => {
+    if (reduceMotion.matches || !heroInView) heroVideo.pause();
+    else heroVideo.play().catch(() => {}); // trình duyệt chặn tự phát thì giữ poster
+  };
 
-function showSlide(index) {
-  slideIndex = (index + slideImgs.length) % slideImgs.length;
-  slideImgs.forEach((img, i) => img.classList.toggle('is-active', i === slideIndex));
-  slideDots.forEach((dot, i) => dot.classList.toggle('is-active', i === slideIndex));
-}
-
-function startSlides() {
-  if (slideTimer) return;
-  slideTimer = setInterval(() => { if (!document.hidden) showSlide(slideIndex + 1); }, SLIDE_MS);
-}
-
-function stopSlides() {
-  clearInterval(slideTimer);
-  slideTimer = null;
-}
-
-showSlide(0);
-if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  startSlides();
-  slidesEl.addEventListener('pointerenter', stopSlides);
-  slidesEl.addEventListener('pointerleave', startSlides);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      heroInView = entry.isIntersecting;
+      syncHeroVideo();
+    }).observe(heroVideo);
+  }
+  if (reduceMotion.addEventListener) reduceMotion.addEventListener('change', syncHeroVideo);
+  syncHeroVideo();
 }
 
 /* 99-ready.js */
