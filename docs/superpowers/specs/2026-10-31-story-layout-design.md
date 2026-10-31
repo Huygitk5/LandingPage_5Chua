@@ -16,7 +16,7 @@ Không bịa thông tin mới (nhận xét khách, chính sách giao hàng, gi�
 
 | Phần | id | Nội dung | Lấy từ |
 |---|---|---|---|
-| Mở đầu | `trang-chu` | Cao bằng màn hình. Dòng nhỏ, tiêu đề, đoạn dẫn, nút Gọi/Zalo, dòng 3 ý: "Từ 1992 · Thu hoạch tại vườn · Ưu đãi mua sỉ". Video. | Hero + dải cam kết |
+| Mở đầu | `trang-chu` | Cao bằng màn hình. Dòng nhỏ, tiêu đề, đoạn dẫn, nút Gọi/Zalo, dòng 3 ý lấy từ dải cam kết: "Nuôi, thu hoạch tại vườn · Ong, lan, cây giống · Ưu đãi mua số lượng lớn", link "Câu chuyện bắt đầu ↓". Video. | Hero + dải cam kết |
 | 01 Vườn ong | `gioi-thieu` | Câu chuyện, 2 ảnh lục giác, 3 con số, 4 lý do (danh sách gọn: biểu tượng + tiêu đề + 1 câu) | Giới thiệu + Vì sao chọn |
 | 02 Sản phẩm | `san-pham` | Tab + băng chuyền + ghi chú giá (giữ nguyên chức năng) | Sản phẩm |
 | 03 Đặt hàng | `cach-dat-hang` | 3 bước thành một hàng ngang, ngay bên dưới là phiếu đặt hàng | Cách đặt hàng + phiếu trong Liên hệ |
@@ -42,12 +42,10 @@ Không bịa thông tin mới (nhận xét khách, chính sách giao hàng, gi�
 
 ## 3. Chuyển động
 
-- **Đường bay của ong (`.flight-path`):** một đường thẳng đứng nét chấm màu mật chạy dọc `main`, từ chương 01 tới hết chương 04. Mỗi đầu chương có một nút lục giác nhỏ nằm trên đường (thẳng hàng với số chương). Đầu đường đang vẽ có một con ong nhỏ (biểu tượng SVG). Vị trí: máy tính cách mép trái container 40px về phía ngoài (chỉ khi màn hình ≥ 1200px đủ chỗ; hẹp hơn thì nằm trong lề trái container và nội dung chương thụt vào 32px); điện thoại cách mép màn hình 10px, nét mảnh, nội dung chương thụt trái 28px để không đè chữ. Vẽ dần theo tiến độ cuộn của `main`:
-  - Trình duyệt hỗ trợ `animation-timeline: scroll()` → CSS thuần.
-  - Không hỗ trợ → JS cập nhật biến `--progress` (0..1) theo `scroll`, gom bằng `requestAnimationFrame`.
+- **Đường bay của ong (`.flight-path`):** một đường thẳng đứng nét chấm màu mật chạy dọc `main`, từ chương 01 tới hết chương 04. Mỗi đầu chương có một nút lục giác nhỏ nằm trên đường (thẳng hàng với số chương). Đầu đường đang vẽ có một con ong nhỏ (biểu tượng SVG). Vị trí: máy tính cách mép trái container 40px về phía ngoài (chỉ khi màn hình ≥ 1200px đủ chỗ; hẹp hơn thì nằm trong lề trái container và nội dung chương thụt vào 32px); điện thoại cách mép màn hình 10px, nét mảnh, nội dung chương thụt trái 28px để không đè chữ. Vẽ dần theo tiến độ cuộn: vị trí/độ dài đường phải đo bằng JS (từ nút chương 01 tới nút chương 04), nên tiến độ cũng do JS cập nhật biến `--progress` (0..1) theo `scroll`, gom bằng `requestAnimationFrame`. Không có JS → đường hiện đầy đủ.
   - Giảm chuyển động → hiện đường đầy đủ, không vẽ dần.
   - Đường bay là trang trí: `aria-hidden`, `pointer-events: none`.
-- **Cột số chương (`.chapter-rail`):** cố định cạnh phải, chỉ hiện khi ≥ 1100px. 4 chấm + số 01–04 + tên ngắn khi hover/đang xem. Dùng lại logic scrollspy hiện có (`45-scrollspy.js`) để tô chương đang xem. Mỗi mục là link tới chương.
+- **Cột số chương (`.chapter-rail`):** cố định cạnh phải, chỉ hiện khi ≥ 1280px và khi đã cuộn qua mở đầu. 4 chấm + số 01–04; tên chương hiện khi rê chuột. Dùng lại logic scrollspy hiện có (`45-scrollspy.js`) để tô chương đang xem. Mỗi mục là link tới chương.
 - **Theo nhịp cuộn (CSS `animation-timeline: view()` nếu hỗ trợ, ngược lại dùng `data-reveal` hiện có):**
   - Số chương trượt từ trái vào + mờ dần hiện.
   - Ảnh lục giác chương 01 mở từ `scale(0.9)` → 1.
@@ -68,7 +66,7 @@ Không bịa thông tin mới (nhận xét khách, chính sách giao hàng, gi�
 ## 5. Cấu trúc file
 
 - `src/sections/`: `02-hero.html` (gộp dải cam kết), `04-about.html` → chương 01 (gộp why-us), `05-products.html` → chương 02, `07-how-to-order.html` → chương 03 (gồm phiếu), `08-contact.html` → chương 04 (chỉ thông tin + bản đồ). Xóa `03-trust.html`, `06-why-us.html` và CSS tương ứng (`03-trust.css`, `06-why-us.css`, `07-how-to-order.css` gộp vào CSS chương 03).
-- CSS mới: `src/css/03-story.css` (nền, `.chapter`, `.chapter-head`, `.chapter-next`, `.flight-path`, `.chapter-rail`). JS mới: `src/js/48-story.js` (tiến độ đường bay khi không có scroll-timeline). Rail render trong HTML (`src/sections/`), không sinh bằng JS.
+- CSS mới: `src/css/03-story.css` (nền, `.chapter`, `.chapter-head`, `.chapter-next`, `.flight-path`, `.chapter-rail`). JS mới: `src/js/48-story.js` (vị trí + tiến độ đường bay). Đường bay: `src/sections/03-flight-path.html`; cột chương: `src/sections/06-chapter-rail.html` (HTML tĩnh, không sinh bằng JS). Cột chương chỉ hiện khi ≥ 1280px (hẹp hơn sẽ đè nội dung).
 - `src/css/12-effects.css`: bỏ phần viền sóng.
 
 ## 6. Kiểm tra
