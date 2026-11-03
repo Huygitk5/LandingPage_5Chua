@@ -450,23 +450,29 @@ syncHeader();
 document.getElementById('year').textContent = new Date().getFullYear();
 
 /* 45-scrollspy.js */
-// Tô sáng mục menu của section đang xem (section nào đã cuộn qua 40% chiều cao màn hình thì tính là đang xem).
-const spyLinks = [...navEl.querySelectorAll('a[href^="#"]')];
-const spySections = spyLinks.map((a) => document.getElementById(a.getAttribute('href').slice(1)));
+// Tô sáng mục menu và cột chương của chương đang xem
+// (chương nào đã cuộn qua 40% chiều cao màn hình thì tính là đang xem).
+const railEl = document.getElementById('chapter-rail');
+const spyLinks = [...navEl.querySelectorAll('a[href^="#"]'), ...(railEl ? railEl.querySelectorAll('a[href^="#"]') : [])];
+const spySections = [...new Set(spyLinks.map((a) => a.getAttribute('href').slice(1)))]
+  .map((id) => document.getElementById(id))
+  .filter(Boolean);
 let spyQueued = false;
 
 function syncSpy() {
   spyQueued = false;
   const line = window.innerHeight * 0.4;
-  let current = -1;
-  spySections.forEach((section, i) => {
-    if (section && section.getBoundingClientRect().top <= line) current = i;
-  });
-  spyLinks.forEach((a, i) => {
-    a.classList.toggle('is-active', i === current);
-    if (i === current) a.setAttribute('aria-current', 'true');
+  let currentId = null;
+  for (const section of spySections) {
+    if (section.getBoundingClientRect().top <= line) currentId = section.id;
+  }
+  for (const a of spyLinks) {
+    const active = a.getAttribute('href') === `#${currentId}`;
+    a.classList.toggle('is-active', active);
+    if (active) a.setAttribute('aria-current', 'true');
     else a.removeAttribute('aria-current');
-  });
+  }
+  if (railEl) railEl.classList.toggle('is-visible', currentId !== null);
 }
 
 window.addEventListener('scroll', () => {
@@ -475,6 +481,50 @@ window.addEventListener('scroll', () => {
   requestAnimationFrame(syncSpy);
 }, { passive: true });
 syncSpy();
+
+/* 48-story.js */
+// Đường bay của ong: nối nút lục giác của chương đầu và chương cuối, vẽ dần theo nhịp cuộn.
+// Không có JS thì --progress mặc định 1 (CSS) nên đường hiện đầy đủ.
+const storyEl = document.getElementById('story');
+const pathEl = document.getElementById('flight-path');
+const pathNodes = storyEl ? [...storyEl.querySelectorAll('.chapter-node')] : [];
+let pathQueued = false;
+
+function syncPath() {
+  pathQueued = false;
+  if (reducedMotion.matches) {
+    pathEl.style.setProperty('--progress', '1');
+    return;
+  }
+  const rect = pathEl.getBoundingClientRect();
+  const line = window.innerHeight * 0.6;
+  const progress = rect.height > 0 ? Math.min(1, Math.max(0, (line - rect.top) / rect.height)) : 1;
+  pathEl.style.setProperty('--progress', progress.toFixed(4));
+}
+
+function layoutPath() {
+  const base = storyEl.getBoundingClientRect().top;
+  const centerOf = (node) => {
+    const r = node.getBoundingClientRect();
+    return r.top + r.height / 2 - base;
+  };
+  const top = centerOf(pathNodes[0]);
+  pathEl.style.top = `${top}px`;
+  pathEl.style.height = `${centerOf(pathNodes[pathNodes.length - 1]) - top}px`;
+  syncPath();
+}
+
+if (pathEl && pathNodes.length > 1) {
+  window.addEventListener('scroll', () => {
+    if (pathQueued) return;
+    pathQueued = true;
+    requestAnimationFrame(syncPath);
+  }, { passive: true });
+  if ('ResizeObserver' in window) new ResizeObserver(layoutPath).observe(storyEl);
+  else window.addEventListener('resize', layoutPath);
+  if (document.fonts) document.fonts.ready.then(layoutPath);
+  layoutPath();
+}
 
 /* 50-reveal.js */
 // Hiện dần khi cuộn tới và số đếm lên. Tắt khi người dùng bật "giảm chuyển động".
