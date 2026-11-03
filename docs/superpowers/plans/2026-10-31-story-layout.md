@@ -37,8 +37,8 @@ CH="/c/Program Files/Google/Chrome/Application/chrome.exe"
 | 0. Commit phần việc trước | ✅ Xong | a7d8fe9 | 10/10 test đạt |
 | 1. Video không chữ, 2 khổ | ✅ Xong | 92fe972 | lg 3,7MB (720×900), sm 1,7MB (540×960, crf 34 thay vì 30 cho nhẹ) |
 | 2. Cấu trúc HTML theo chương | ✅ Xong | d363f71 | 14/14 test đạt |
-| 3. CSS liền mạch | ⏳ Đang làm | | |
-| 4. JS đường bay + cột chương | ⬜ Chưa làm | | |
+| 3. CSS liền mạch | ✅ Xong | 4a3ace8 | 14/14 test đạt, grep class cũ = 0; không tràn ngang ở 390px; ảnh chụp bằng CDP (viewport cố định) vì `--window-size` làm 100svh = chiều cao cửa sổ |
+| 4. JS đường bay + cột chương | ✅ Xong | f6fdc9f | 14/14 test đạt, `node --check` ok. Đo bằng CDP: đường bay nối nút 01→04 (3376px), nút và đường cùng x, `--progress` 0→0,37→0,74→1, cột chương hiện + tô đúng chương, không tràn ngang 390px |
 
 ---
 
@@ -842,7 +842,7 @@ git commit -m "Restructure page into hero + four story chapters"
 - Consumes: class/id từ Task 2.
 - Produces: biến CSS `--progress` (0..1, mặc định 1) trên `#flight-path`; class `.is-visible` trên `#chapter-rail`; `.is-active` trên link rail — Task 4 đặt các giá trị này.
 
-- [ ] **Step 1: Tạo `src/css/03-story.css`**
+- [x] **Step 1: Tạo `src/css/03-story.css`**
 
 ```css
 /* Phần câu chuyện: một nền kem liền mạch, 4 chương nối nhau bằng đường bay của ong. */
@@ -952,7 +952,7 @@ git commit -m "Restructure page into hero + four story chapters"
 }
 ```
 
-- [ ] **Step 2: Viết lại `src/css/02-hero.css`**
+- [x] **Step 2: Viết lại `src/css/02-hero.css`**
 
 ```css
 /* Mở đầu: cao bằng màn hình, nằm cả dưới header (header trong suốt ở đầu trang).
@@ -1026,7 +1026,7 @@ git commit -m "Restructure page into hero + four story chapters"
 }
 ```
 
-- [ ] **Step 3: Header chữ trắng khi nằm trên video (điện thoại)**
+- [x] **Step 3: Header chữ trắng khi nằm trên video (điện thoại)**
 
 Thêm vào cuối `src/css/01-header.css`:
 
@@ -1039,7 +1039,7 @@ Thêm vào cuối `src/css/01-header.css`:
 }
 ```
 
-- [ ] **Step 4: Chương 01 — `src/css/04-about.css`**
+- [x] **Step 4: Chương 01 — `src/css/04-about.css`**
 
 Đổi dòng `.about { position: relative; overflow: hidden; background: var(--paper); }` thành `.about { overflow: hidden; }`; thêm cuối file (trước khối `@media (min-width: 860px)` hoặc sau, đều được):
 
@@ -1065,11 +1065,11 @@ Thêm vào cuối `src/css/01-header.css`:
 }
 ```
 
-- [ ] **Step 5: Chương 02 — `src/css/05-products.css`**
+- [x] **Step 5: Chương 02 — `src/css/05-products.css`**
 
 Xóa dòng `.products { background: var(--cream); }`; trong `.tabs { … justify-content: center; … }` đổi `center` thành `flex-start`; trong `.products-note { … text-align: center; … }` đổi `center` thành `left`.
 
-- [ ] **Step 6: Chương 03 — viết lại `src/css/07-how-to-order.css`**
+- [x] **Step 6: Chương 03 — viết lại `src/css/07-how-to-order.css`**
 
 ```css
 /* Chương 03: ba bước nằm ngang, phiếu đặt hàng ngay bên dưới */
@@ -1100,7 +1100,7 @@ Xóa dòng `.products { background: var(--cream); }`; trong `.tabs { … justify
 }
 ```
 
-- [ ] **Step 7: Chương 04 — `src/css/08-contact.css`**
+- [x] **Step 7: Chương 04 — `src/css/08-contact.css`**
 
 Xóa dòng `.contact { background: var(--cream); }`. Đổi `.contact-list { list-style: none; margin: 0 0 20px; …` thành `margin: 0;`. Thay khối `.map { … }` và `.map iframe { … }` bằng:
 
@@ -1121,14 +1121,14 @@ và đổi khối `@media (min-width: 860px)` ở cuối file thành:
 }
 ```
 
-- [ ] **Step 8: Chân trang, base, hiệu ứng**
+- [x] **Step 8: Chân trang, base, hiệu ứng**
 
 - `src/css/09-footer.css`: đổi `padding: 68px 0 0;` (trong `.site-footer`) thành `padding: 56px 0 0;`.
 - `src/css/00-base.css`: xóa hai dòng `.section { padding: 56px 0; }` và `.section-head { max-width: 700px; margin: 0 auto 32px; text-align: center; }` (giữ `.section-sub`).
 - `src/css/12-effects.css`: xóa biến `--wave-mask` trong `:root`, xóa toàn bộ khối "Viền sóng" (từ comment `/* Viền sóng…` tới hết dòng `.site-footer.wave-top { … }`), xóa khối `@media (max-width: 599px) { .leaf-2 { display: none; } }`. Sửa comment đầu file thành `/* Hiệu ứng dùng chung: họa tiết tổ ong, lá trang trí, hiện dần khi cuộn. */`.
 - Xóa file: `git rm -q src/css/03-trust.css src/css/06-why-us.css`.
 
-- [ ] **Step 9: Build, test, kiểm tra không còn class cũ**
+- [x] **Step 9: Build, test, kiểm tra không còn class cũ**
 
 Run:
 ```bash
@@ -1137,12 +1137,12 @@ grep -c "wave-\|\.trust\|why-card\|section-head" assets/styles.css
 ```
 Expected: `ℹ fail 0`; grep in ra `0`.
 
-- [ ] **Step 10: Chụp ảnh kiểm tra**
+- [x] **Step 10: Chụp ảnh kiểm tra**
 
 Run: `bash $SCRATCH/shot.sh $SCRATCH/t3-desktop.png 1280 6400` và `bash $SCRATCH/shot.sh $SCRATCH/t3-mobile.png 390 9000`, thu nhỏ rồi xem.
 Expected (bằng mắt): nền kem liền từ chương 01 tới 04, chỉ chân trang tối; mở đầu máy tính chữ trái + video phải mép cong; điện thoại chữ trắng đọc được trên video; số 01–04 viền mật; không tràn ngang ở 390px. (Đường bay chưa có độ dài — Task 4.)
 
-- [ ] **Step 11: Commit**
+- [x] **Step 11: Commit**
 
 ```bash
 git add -A src index.html assets/styles.css assets/app.js
@@ -1161,7 +1161,7 @@ git commit -m "Style story chapters on one continuous background with full-scree
 - Consumes: `reducedMotion` (MediaQueryList, `src/js/05-utils.js`), `navEl` (`src/js/40-nav.js`), `#story`, `#flight-path`, `.chapter-node`, `#chapter-rail`.
 - Produces: `--progress` trên `#flight-path`, `top/height` inline của `#flight-path`, `.is-visible` trên `#chapter-rail`, `.is-active` + `aria-current` trên link menu và rail.
 
-- [ ] **Step 1: Viết lại `src/js/45-scrollspy.js`**
+- [x] **Step 1: Viết lại `src/js/45-scrollspy.js`**
 
 ```js
 // Tô sáng mục menu và cột chương của chương đang xem
@@ -1197,7 +1197,7 @@ window.addEventListener('scroll', () => {
 syncSpy();
 ```
 
-- [ ] **Step 2: Tạo `src/js/48-story.js`**
+- [x] **Step 2: Tạo `src/js/48-story.js`**
 
 ```js
 // Đường bay của ong: nối nút lục giác của chương đầu và chương cuối, vẽ dần theo nhịp cuộn.
@@ -1244,17 +1244,17 @@ if (pathEl && pathNodes.length > 1) {
 }
 ```
 
-- [ ] **Step 3: Build, kiểm tra cú pháp, test**
+- [x] **Step 3: Build, kiểm tra cú pháp, test**
 
 Run: `node build.mjs && node --check assets/app.js && node --test tests/build.test.mjs`
 Expected: `js-ok` (không lỗi cú pháp), `ℹ fail 0`.
 
-- [ ] **Step 4: Chụp ảnh kiểm tra cuối**
+- [x] **Step 4: Chụp ảnh kiểm tra cuối**
 
 Run: chụp `1280×6400`, `390×9000`, và màn hình đầu `1280×800`, `390×844` (mở đầu toàn màn hình).
 Expected: đường chấm mật nối nút lục giác 01 → 04 (ảnh chụp cửa sổ cao nên tiến độ có thể đã đầy); nút lục giác thẳng hàng với đường; mở đầu điện thoại chữ trắng trên video, header trắng; máy tính video sát mép phải.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A src index.html assets/app.js
