@@ -1,15 +1,18 @@
 <section class="hero" id="trang-chu">
   <svg class="leaf leaf-1" aria-hidden="true"><use href="#i-leafshape"/></svg>
 
-  <!-- Video dựng bằng tools/hero-video.py. JS tự phát (trừ khi người dùng bật "giảm chuyển động"). -->
+  <!-- Video giới thiệu {{brand}} (khổ dọc 9:16). JS tự phát (trừ khi người dùng bật "giảm chuyển động"). -->
   <div class="hero-media">
-    <video class="hero-video" id="hero-video" width="540" height="960" muted loop playsinline preload="auto"
-           poster="assets/video/hero-poster-sm.webp" data-poster-lg="assets/video/hero-poster.webp"
-           aria-label="Video ngắn: ong hút mật, vườn ong Chợ Lách, bánh tổ mật, mật ong nguyên chất, sữa ong chúa, hoa lan và cây cacao giống của {{brand}}">
-      <!-- Máy tính dùng khổ 4:5, điện thoại khổ 9:16. Trình duyệt không hiểu media thì lấy bản đầu. -->
-      <source src="assets/video/hero.mp4" type="video/mp4" media="(min-width: 860px)">
-      <source src="assets/video/hero-sm.mp4" type="video/mp4">
+    <video class="hero-video" id="hero-video" width="1080" height="1920" muted loop playsinline preload="metadata"
+           poster="assets/video/hero-poster.webp"
+           aria-label="Video giới thiệu {{brand}}: vườn ong, mật ong, sữa ong chúa, hoa lan và cây cacao giống">
+      <source src="assets/video/hero.mp4" type="video/mp4">
     </video>
+    <!-- Video tự phát khi tắt tiếng (trình duyệt chỉ cho phép vậy); khách bấm nút này để nghe. -->
+    <button class="hero-sound" id="hero-sound" type="button" aria-pressed="false" aria-label="Bật tiếng video">
+      <svg class="icon icon-off" aria-hidden="true"><use href="#i-volume-off"/></svg>
+      <svg class="icon icon-on" aria-hidden="true"><use href="#i-volume-on"/></svg>
+    </button>
   </div>
 
   <div class="container hero-inner">

@@ -2,7 +2,13 @@
 .story { position: relative; --path-x: 12px; background: var(--cream); }
 .story .container { padding-left: 34px; }
 
-.chapter { position: relative; isolation: isolate; padding: 40px 0; }
+/* --chapter-pad: padding trên của chương. scroll-margin-top bù trừ scroll-padding-top của html (header-h + 8px)
+   để khi cuộn tới chương, tiêu đề nằm sát dưới header thay vì bị đẩy xuống thêm một đoạn padding. */
+.chapter {
+  --chapter-pad: 40px;
+  position: relative; isolation: isolate; padding: var(--chapter-pad) 0;
+  scroll-margin-top: calc(-8px - var(--chapter-pad));
+}
 
 /* Họa tiết tổ ong rất mờ ở góc chương 02 và 04 để nhịp với phần mở đầu */
 .products::before, .contact::before {
@@ -60,13 +66,13 @@
 @media (min-width: 860px) {
   .story { --path-x: 20px; }
   .story .container { padding-left: 48px; }
-  .chapter { padding: 56px 0; }
+  .chapter { --chapter-pad: 56px; }
 }
 
 @media (min-width: 1200px) {
   .story { --path-x: calc(50% - 570px); }
   .story .container { padding-left: 16px; }
-  .chapter { padding: 64px 0; }
+  .chapter { --chapter-pad: 64px; }
   .chapter-head { gap: 22px; margin-bottom: 40px; }
 }
 

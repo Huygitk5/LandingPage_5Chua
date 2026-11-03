@@ -140,37 +140,53 @@ p { margin: 0 0 1em; }
   .header-call span { display: none; }
 }
 
-/* Đầu trang trên điện thoại: header nằm trên video nên chữ và nút menu màu trắng */
-@media (max-width: 859px) {
-  .site-header:not(.is-scrolled) .brand-name,
-  .site-header:not(.is-scrolled) .nav-toggle { color: #fff; }
-  .site-header:not(.is-scrolled) .brand-sub { color: #ffd666; }
-}
+/* Đầu trang: header nằm trên hero xanh đậm nên chữ và nút menu màu trắng */
+.site-header:not(.is-scrolled) .brand-name,
+.site-header:not(.is-scrolled) .nav-toggle { color: #fff; }
+.site-header:not(.is-scrolled) .brand-sub { color: #ffd666; }
 
 @media (min-width: 860px) {
   .nav { display: flex; margin-right: auto; }
   .nav-toggle { display: none; }
   .brand { margin-right: 0; }
   .header-inner { gap: 32px; }
+  .site-header:not(.is-scrolled) .nav a { color: rgba(255, 255, 255, 0.9); }
+  .site-header:not(.is-scrolled) .nav a:hover,
+  .site-header:not(.is-scrolled) .nav a.is-active { color: #fff; }
 }
 
 /* 02-hero.css */
-/* Mở đầu: cao bằng màn hình, nằm cả dưới header (header trong suốt ở đầu trang).
-   Điện thoại: video phủ kín làm nền, chữ trắng phía dưới. Máy tính: chữ trái, video sát mép phải. */
+/* Mở đầu: nền xanh đậm cùng tông với video giới thiệu. Video là khổ dọc 9:16 đã có chữ trong khung hình
+   nên luôn hiện đủ (không cắt, không đè chữ lên). Điện thoại: chữ ở trên, video bên dưới.
+   Máy tính: chữ bên trái, video khổ 9:16 bên phải. */
 .hero {
+  --hero-bg: #16251a;
   position: relative; overflow: hidden; isolation: isolate;
-  display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 100svh; margin-top: calc(-1 * var(--header-h));
+  display: flex; flex-direction: column;
+  margin-top: calc(-1 * var(--header-h));
   padding: calc(var(--header-h) + 24px) 0 24px;
-  background: var(--green-dark);
+  background: var(--hero-bg);
 }
-.hero-media { position: absolute; inset: 0; z-index: -1; }
-.hero-video { display: block; width: 100%; height: 100%; object-fit: cover; }
-.hero-media::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(20, 14, 4, 0.5) 0, rgba(20, 14, 4, 0) 20%, rgba(20, 14, 4, 0) 36%,
-    rgba(20, 14, 4, 0.85) 74%, rgba(20, 14, 4, 0.92) 100%);
+.hero-media {
+  order: 2; position: relative; align-self: center; margin-top: 28px;
+  width: min(calc(100% - 32px), calc(78svh * 9 / 16)); aspect-ratio: 9 / 16;
+  background: var(--hero-bg); box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45); outline: 1px solid rgba(255, 214, 102, 0.28);
 }
+.hero-video { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+/* Nút bật/tắt tiếng ở góc trên phải video */
+.hero-sound {
+  position: absolute; top: 12px; right: 12px; z-index: 1;
+  display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 999px; cursor: pointer;
+  background: rgba(10, 18, 12, 0.72); backdrop-filter: blur(6px); color: #fff;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hero-sound:hover { background: rgba(10, 18, 12, 0.9); border-color: #ffd666; }
+.hero-sound .icon { width: 20px; height: 20px; }
+.hero-sound .icon-on { display: none; }
+.hero-sound[aria-pressed="true"] .icon-off { display: none; }
+.hero-sound[aria-pressed="true"] .icon-on { display: block; }
 
 .hero-inner { position: relative; }
 .hero .eyebrow { color: #ffd666; }
@@ -192,37 +208,32 @@ p { margin: 0 0 1em; }
 }
 
 .hero-scroll {
-  position: relative; align-self: center; margin-top: 22px; font-size: 0.85rem; font-weight: 600;
+  order: 3; position: relative; align-self: center; margin-top: 22px; font-size: 0.85rem; font-weight: 600;
   letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.85); text-decoration: none;
 }
 .hero-scroll:hover { color: #fff; }
 
-.leaf-1 { --s: 150px; --r: -20deg; left: -48px; bottom: 70px; display: none; }
+.leaf-1 { display: none; }
 
 @media (min-width: 860px) {
-  .hero {
-    justify-content: center; min-height: max(640px, 100svh); padding: calc(var(--header-h) + 40px) 0 72px;
-    background: radial-gradient(circle at 25% 15%, var(--honey-soft) 0, transparent 50%), var(--cream);
-  }
+  .hero { justify-content: center; min-height: max(640px, 100svh); padding: calc(var(--header-h) + 40px) 0 72px; }
   /* Họa tiết tổ ong mờ phía chữ */
   .hero::before {
-    content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
-    background: var(--hex-honey); opacity: 0.14;
-    -webkit-mask-image: linear-gradient(90deg, #000 0, transparent 55%);
-    mask-image: linear-gradient(90deg, #000 0, transparent 55%);
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: var(--hex-honey); opacity: 0.07;
+    -webkit-mask-image: linear-gradient(90deg, #000 0, transparent 60%);
+    mask-image: linear-gradient(90deg, #000 0, transparent 60%);
   }
-  .hero-media { left: auto; width: min(46vw, 760px); clip-path: ellipse(96% 100% at 100% 50%); }
-  .hero-media::after { display: none; }
-  .hero-copy { max-width: min(560px, 50%); }
-  .hero .eyebrow { color: var(--honey-dark); }
-  .hero h1 { color: var(--green-dark); font-size: clamp(2.6rem, 4.6vw, 3.8rem); }
-  .lead { color: var(--muted); font-size: 1.12rem; }
-  .hero .btn-outline { color: var(--green-dark); border-color: var(--green); }
-  .hero .btn-outline:hover { background: var(--green); color: #fff; }
-  .hero-facts { color: var(--muted); }
-  .hero-scroll { position: absolute; left: max(16px, calc(50% - 544px)); bottom: 28px; margin: 0; color: var(--honey-dark); }
-  .hero-scroll:hover { color: var(--green-dark); }
-  .leaf-1 { display: block; }
+  /* Video 9:16 nằm sát mép phải của khung nội dung, cao vừa trong màn hình */
+  .hero-media {
+    position: absolute; order: 0; align-self: auto; margin: 0;
+    top: calc(var(--header-h) + 16px); right: max(16px, calc(50% - 544px));
+    width: min(40vw, 480px, calc((100svh - var(--header-h) - 56px) * 9 / 16));
+  }
+  .hero-copy { max-width: min(540px, 52%); }
+  .lead { font-size: 1.12rem; }
+  .hero-scroll { position: absolute; left: max(16px, calc(50% - 544px)); bottom: 28px; margin: 0; color: #ffd666; }
+  .hero-scroll:hover { color: #fff; }
 }
 
 /* 03-story.css */
@@ -230,7 +241,13 @@ p { margin: 0 0 1em; }
 .story { position: relative; --path-x: 12px; background: var(--cream); }
 .story .container { padding-left: 34px; }
 
-.chapter { position: relative; isolation: isolate; padding: 40px 0; }
+/* --chapter-pad: padding trên của chương. scroll-margin-top bù trừ scroll-padding-top của html (header-h + 8px)
+   để khi cuộn tới chương, tiêu đề nằm sát dưới header thay vì bị đẩy xuống thêm một đoạn padding. */
+.chapter {
+  --chapter-pad: 40px;
+  position: relative; isolation: isolate; padding: var(--chapter-pad) 0;
+  scroll-margin-top: calc(-8px - var(--chapter-pad));
+}
 
 /* Họa tiết tổ ong rất mờ ở góc chương 02 và 04 để nhịp với phần mở đầu */
 .products::before, .contact::before {
@@ -288,13 +305,13 @@ p { margin: 0 0 1em; }
 @media (min-width: 860px) {
   .story { --path-x: 20px; }
   .story .container { padding-left: 48px; }
-  .chapter { padding: 56px 0; }
+  .chapter { --chapter-pad: 56px; }
 }
 
 @media (min-width: 1200px) {
   .story { --path-x: calc(50% - 570px); }
   .story .container { padding-left: 16px; }
-  .chapter { padding: 64px 0; }
+  .chapter { --chapter-pad: 64px; }
   .chapter-head { gap: 22px; margin-bottom: 40px; }
 }
 
@@ -453,7 +470,7 @@ p { margin: 0 0 1em; }
 .link-btn { padding: 4px; border: 0; background: none; font: inherit; font-weight: 600; color: var(--green); text-decoration: underline; cursor: pointer; }
 .link-btn:hover { color: var(--green-dark); }
 
-.products-note { margin: 28px 0 0; text-align: left; font-size: 0.9rem; color: var(--muted); }
+.products-note { margin: 28px 0 0; text-align: center; font-size: 0.85rem; color: var(--muted); }
 .noscript { text-align: center; flex: 1; }
 
 @media (min-width: 560px) {

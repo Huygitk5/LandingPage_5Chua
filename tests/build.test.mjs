@@ -37,15 +37,12 @@ test('mọi đường dẫn local (src/href) đều trỏ tới file có thật'
   }
 });
 
-test('video hero có bản máy tính, bản điện thoại và poster cho từng khổ', () => {
-  const sources = [...html.matchAll(/<source src="(assets\/video\/[^"]+\.mp4)"([^>]*)>/g)];
+test('video hero có nguồn mp4 và poster có thật, muted + playsinline để tự phát', () => {
+  const sources = [...html.matchAll(/<source src="(assets\/video\/[^"]+\.mp4)"[^>]*>/g)];
   const poster = html.match(/ poster="(assets\/video\/[^"]+)"/);
-  const posterLg = html.match(/data-poster-lg="(assets\/video\/[^"]+)"/);
-  assert.equal(sources.length, 2, 'cần 2 nguồn video (lớn + nhỏ)');
-  assert.ok(poster && posterLg, 'thiếu poster hoặc data-poster-lg ở hero');
-  assert.match(sources[0][2], /media="\(min-width: 860px\)"/, 'bản lớn phải đứng đầu và có media cho máy tính');
-  assert.doesNotMatch(sources[1][2], /media=/, 'bản nhỏ là nguồn mặc định, không có media');
-  for (const ref of [...sources.map((s) => s[1]), poster[1], posterLg[1]]) {
+  assert.equal(sources.length, 1, 'cần đúng 1 nguồn video');
+  assert.ok(poster, 'thiếu poster ở hero');
+  for (const ref of [sources[0][1], poster[1]]) {
     assert.ok(existsSync(join(root, ref)), `không tìm thấy ${ref}`);
   }
   assert.match(html, /<video[^>]*\bmuted\b[^>]*\bplaysinline\b/, 'video phải muted + playsinline để tự phát trên di động');

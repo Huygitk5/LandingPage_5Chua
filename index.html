@@ -67,6 +67,8 @@
       <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
       <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></symbol>
       <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></symbol>
+      <symbol id="i-volume-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></symbol>
+      <symbol id="i-volume-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
       <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
       <symbol id="i-leafshape" viewBox="0 0 24 24"><path fill="currentColor" d="M3 21C3 11 9 4 21 3c0 11-6 18-18 18z"/><path fill="none" stroke="#fbf6ea" stroke-width="0.8" stroke-linecap="round" opacity="0.7" d="M3 21C9 15 13 11 18 7"/></symbol>
       <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
@@ -111,15 +113,18 @@
     <section class="hero" id="trang-chu">
       <svg class="leaf leaf-1" aria-hidden="true"><use href="#i-leafshape"/></svg>
 
-      <!-- Video dựng bằng tools/hero-video.py. JS tự phát (trừ khi người dùng bật "giảm chuyển động"). -->
+      <!-- Video giới thiệu Năm Chùa (khổ dọc 9:16). JS tự phát (trừ khi người dùng bật "giảm chuyển động"). -->
       <div class="hero-media">
-        <video class="hero-video" id="hero-video" width="540" height="960" muted loop playsinline preload="auto"
-               poster="assets/video/hero-poster-sm.webp" data-poster-lg="assets/video/hero-poster.webp"
-               aria-label="Video ngắn: ong hút mật, vườn ong Chợ Lách, bánh tổ mật, mật ong nguyên chất, sữa ong chúa, hoa lan và cây cacao giống của Năm Chùa">
-          <!-- Máy tính dùng khổ 4:5, điện thoại khổ 9:16. Trình duyệt không hiểu media thì lấy bản đầu. -->
-          <source src="assets/video/hero.mp4" type="video/mp4" media="(min-width: 860px)">
-          <source src="assets/video/hero-sm.mp4" type="video/mp4">
+        <video class="hero-video" id="hero-video" width="1080" height="1920" muted loop playsinline preload="metadata"
+               poster="assets/video/hero-poster.webp"
+               aria-label="Video giới thiệu Năm Chùa: vườn ong, mật ong, sữa ong chúa, hoa lan và cây cacao giống">
+          <source src="assets/video/hero.mp4" type="video/mp4">
         </video>
+        <!-- Video tự phát khi tắt tiếng (trình duyệt chỉ cho phép vậy); khách bấm nút này để nghe. -->
+        <button class="hero-sound" id="hero-sound" type="button" aria-pressed="false" aria-label="Bật tiếng video">
+          <svg class="icon icon-off" aria-hidden="true"><use href="#i-volume-off"/></svg>
+          <svg class="icon icon-on" aria-hidden="true"><use href="#i-volume-on"/></svg>
+        </button>
       </div>
 
       <div class="container hero-inner">

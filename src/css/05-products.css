@@ -67,7 +67,7 @@
 .link-btn { padding: 4px; border: 0; background: none; font: inherit; font-weight: 600; color: var(--green); text-decoration: underline; cursor: pointer; }
 .link-btn:hover { color: var(--green-dark); }
 
-.products-note { margin: 28px 0 0; text-align: left; font-size: 0.9rem; color: var(--muted); }
+.products-note { margin: 28px 0 0; text-align: center; font-size: 0.85rem; color: var(--muted); }
 .noscript { text-align: center; flex: 1; }
 
 @media (min-width: 560px) {
