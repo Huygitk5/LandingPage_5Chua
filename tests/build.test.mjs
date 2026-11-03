@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { build } from '../build.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SECTION_IDS = ['trang-chu', 'gioi-thieu', 'san-pham', 'vi-sao', 'cach-dat-hang', 'lien-he'];
+const SECTION_IDS = ['trang-chu', 'gioi-thieu', 'san-pham', 'cach-dat-hang', 'lien-he'];
 
 build();
 const html = readFileSync(join(root, 'index.html'), 'utf8');
@@ -37,14 +37,12 @@ test('mọi đường dẫn local (src/href) đều trỏ tới file có thật'
   }
 });
 
-test('video hero có bản máy tính, bản điện thoại và poster thật', () => {
-  const sources = [...html.matchAll(/<source src="(assets\/video\/[^"]+\.mp4)"([^>]*)>/g)];
-  const poster = html.match(/poster="(assets\/video\/[^"]+)"/);
-  assert.equal(sources.length, 2, 'cần 2 nguồn video (lớn + nhỏ)');
+test('video hero có nguồn mp4 và poster có thật, muted + playsinline để tự phát', () => {
+  const sources = [...html.matchAll(/<source src="(assets\/video\/[^"]+\.mp4)"[^>]*>/g)];
+  const poster = html.match(/ poster="(assets\/video\/[^"]+)"/);
+  assert.equal(sources.length, 1, 'cần đúng 1 nguồn video');
   assert.ok(poster, 'thiếu poster ở hero');
-  assert.match(sources[0][2], /media="\(min-width: 860px\)"/, 'bản lớn phải đứng đầu và có media cho máy tính');
-  assert.doesNotMatch(sources[1][2], /media=/, 'bản nhỏ là nguồn mặc định, không có media');
-  for (const ref of [...sources.map((s) => s[1]), poster[1]]) {
+  for (const ref of [sources[0][1], poster[1]]) {
     assert.ok(existsSync(join(root, ref)), `không tìm thấy ${ref}`);
   }
   assert.match(html, /<video[^>]*\bmuted\b[^>]*\bplaysinline\b/, 'video phải muted + playsinline để tự phát trên di động');
@@ -56,6 +54,35 @@ test('link nhóm sản phẩm ở chân trang trỏ tới nhóm có thật', () 
   const links = [...html.matchAll(/data-group-link="([\w-]+)"/g)].map((m) => m[1]);
   assert.ok(links.length > 0, 'chân trang chưa có link nhóm sản phẩm');
   for (const id of links) assert.ok(groupIds.includes(id), `không có nhóm sản phẩm "${id}"`);
+});
+
+test('4 chương đánh số 01–04 đúng thứ tự, mỗi chương có nút trên đường bay', () => {
+  const chapters = [...html.matchAll(
+    /<section class="chapter[^"]*" id="([\w-]+)">[\s\S]*?<span class="chapter-node"[^>]*><\/span>\s*<span class="chapter-no"[^>]*>(\d\d)<\/span>/g,
+  )].map((m) => [m[1], m[2]]);
+  assert.deepEqual(chapters, [['gioi-thieu', '01'], ['san-pham', '02'], ['cach-dat-hang', '03'], ['lien-he', '04']]);
+});
+
+test('không còn phần cũ đã gộp (vi-sao, dải cam kết, viền sóng)', () => {
+  assert.ok(!html.includes('vi-sao'), 'còn nhắc tới #vi-sao');
+  assert.ok(!/class="trust"/.test(html), 'còn dải cam kết riêng');
+  assert.ok(!/wave-(top|bottom)/.test(html), 'còn viền sóng');
+});
+
+test('đường bay và cột chương có đủ, link trỏ đúng 4 chương', () => {
+  assert.match(html, /<div class="story" id="story">/);
+  assert.match(html, /id="flight-path"/);
+  const rail = html.match(/<nav class="chapter-rail"[\s\S]*?<\/nav>/);
+  assert.ok(rail, 'thiếu cột chương');
+  const hrefs = [...rail[0].matchAll(/href="#([\w-]+)"/g)].map((m) => m[1]);
+  assert.deepEqual(hrefs, ['gioi-thieu', 'san-pham', 'cach-dat-hang', 'lien-he']);
+});
+
+test('phiếu đặt hàng nằm trong chương 03', () => {
+  const start = html.indexOf('id="cach-dat-hang"');
+  const form = html.indexOf('id="order-form"');
+  const end = html.indexOf('id="lien-he"');
+  assert.ok(start > 0 && start < form && form < end, 'phiếu phải nằm giữa chương 03 và chương 04');
 });
 
 test('bundle CSS và JS được tạo', () => {

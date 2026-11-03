@@ -11,7 +11,7 @@ const PRODUCT_GROUPS = [
 
 const PRODUCTS = [
   {
-    id: 'mat-ong', group: 'ong-nghe', name: 'Mật ong', spec: '1 lít', price: 100000,
+    id: 'mat-ong', group: 'ong-nghe', name: 'Mật ong', spec: '1 lít', price: 120000,
     image: 'assets/img/matong.webp', imageAlt: 'Hai chai mật ong nguyên chất của Năm Chùa',
     desc: 'Nuôi và thu hoạch tại vườn. Cam kết chất lượng.', inStock: true,
   },

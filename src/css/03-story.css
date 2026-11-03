@@ -1,0 +1,111 @@
+/* Phần câu chuyện: một nền kem liền mạch, 4 chương nối nhau bằng đường bay của ong. */
+.story { position: relative; --path-x: 12px; background: var(--cream); }
+.story .container { padding-left: 34px; }
+
+/* --chapter-pad: padding trên của chương. scroll-margin-top bù trừ scroll-padding-top của html (header-h + 8px)
+   để khi cuộn tới chương, tiêu đề nằm sát dưới header thay vì bị đẩy xuống thêm một đoạn padding. */
+.chapter {
+  --chapter-pad: 40px;
+  position: relative; isolation: isolate; padding: var(--chapter-pad) 0;
+  scroll-margin-top: calc(-8px - var(--chapter-pad));
+}
+
+/* Họa tiết tổ ong rất mờ ở góc chương 02 và 04 để nhịp với phần mở đầu */
+.products::before, .contact::before {
+  content: ""; position: absolute; top: 0; right: 0; z-index: -1; width: 45%; height: 70%; pointer-events: none;
+  background: var(--hex-honey); opacity: 0.07;
+  -webkit-mask-image: radial-gradient(circle at 100% 0, #000, transparent 70%);
+  mask-image: radial-gradient(circle at 100% 0, #000, transparent 70%);
+}
+
+/* Đầu chương: nút lục giác trên đường bay, số chương lớn viền mật, tiêu đề */
+.chapter-head { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+/* Không đặt top: nút giữ vị trí tĩnh (canh giữa theo chiều dọc của .chapter-head), left tính theo .chapter */
+.chapter-node {
+  position: absolute; left: calc(var(--path-x) - 9px); z-index: 1; width: 18px; height: 20px;
+  background: radial-gradient(circle, var(--cream) 0 3px, var(--honey) 3.5px);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+}
+.chapter-no {
+  flex: none; font-family: var(--font-head); font-weight: 700; line-height: 0.85;
+  font-size: clamp(3rem, 10vw, 5.25rem); color: transparent; -webkit-text-stroke: 2px var(--honey);
+}
+.chapter-title .eyebrow { margin-bottom: 4px; }
+.chapter-title h2 { margin: 0; }
+.chapter-title .section-sub { margin-top: 8px; }
+
+/* Câu dẫn sang chương sau */
+.chapter-next { margin: 32px 0 0; text-align: center; }
+.chapter-next a {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
+  font-family: var(--font-head); font-style: italic; font-size: 1.15rem; color: var(--honey-dark); text-decoration: none;
+}
+.chapter-next a:hover { color: var(--green-dark); }
+.chapter-next span, .hero-scroll span { display: inline-block; animation: nudge 1.8s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(5px); } }
+
+/* Đường bay: nét chấm mờ là cả hành trình, nét chấm đậm là phần đã đi qua */
+.flight-path {
+  --dots: repeating-linear-gradient(to bottom, currentColor 0 4px, transparent 4px 11px);
+  position: absolute; left: calc(var(--path-x) - 1px); top: 0; width: 2px; height: 0; z-index: 0;
+  pointer-events: none; color: rgba(227, 160, 8, 0.32); background: var(--dots);
+}
+.flight-path-fill {
+  position: absolute; left: 0; top: 0; width: 100%; height: calc(var(--progress, 1) * 100%);
+  color: var(--honey); background: var(--dots);
+}
+.flight-bee {
+  position: absolute; left: 50%; top: calc(var(--progress, 1) * 100%); width: 26px; height: 23px;
+  transform: translate(-50%, -50%) rotate(90deg); animation: bee-bob 0.9s ease-in-out infinite alternate;
+}
+@keyframes bee-bob { to { translate: 3px 0; } }
+
+/* Cột số chương: chỉ màn rộng, hiện khi đã qua phần mở đầu */
+.chapter-rail { display: none; }
+
+@media (min-width: 860px) {
+  .story { --path-x: 20px; }
+  .story .container { padding-left: 48px; }
+  .chapter { --chapter-pad: 56px; }
+}
+
+@media (min-width: 1200px) {
+  .story { --path-x: calc(50% - 570px); }
+  .story .container { padding-left: 16px; }
+  .chapter { --chapter-pad: 64px; }
+  .chapter-head { gap: 22px; margin-bottom: 40px; }
+}
+
+@media (min-width: 1280px) {
+  .chapter-rail {
+    position: fixed; right: 20px; top: 50%; z-index: 40; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+  }
+  .chapter-rail.is-visible { opacity: 1; pointer-events: auto; }
+  .chapter-rail a {
+    display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+    font-size: 0.78rem; font-weight: 600; color: var(--muted); text-decoration: none;
+  }
+  .chapter-rail a::after {
+    content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background 0.2s, transform 0.2s;
+  }
+  .rail-label { opacity: 0; transform: translateX(6px); transition: opacity 0.2s, transform 0.2s; }
+  .chapter-rail a:hover .rail-label, .chapter-rail a:focus-visible .rail-label { opacity: 1; transform: none; }
+  .rail-no { font-variant-numeric: tabular-nums; }
+  .chapter-rail a.is-active { color: var(--green-dark); }
+  .chapter-rail a.is-active::after { background: var(--honey); transform: scale(1.5); }
+}
+
+/* Số chương trượt vào, ảnh lục giác mở ra theo nhịp cuộn (trình duyệt hỗ trợ scroll-driven animation) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .chapter-no { animation: chapter-no-in linear both; animation-timeline: view(); animation-range: entry 0% cover 30%; }
+    .about-photos img { animation: photo-in linear both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
+  }
+}
+@keyframes chapter-no-in { from { opacity: 0; translate: -32px 0; } }
+@keyframes photo-in { from { opacity: 0.2; scale: 0.88; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .flight-bee { display: none; }
+}

@@ -49,9 +49,17 @@
   .header-call span { display: none; }
 }
 
+/* Đầu trang: header nằm trên hero xanh đậm nên chữ và nút menu màu trắng */
+.site-header:not(.is-scrolled) .brand-name,
+.site-header:not(.is-scrolled) .nav-toggle { color: #fff; }
+.site-header:not(.is-scrolled) .brand-sub { color: #ffd666; }
+
 @media (min-width: 860px) {
   .nav { display: flex; margin-right: auto; }
   .nav-toggle { display: none; }
   .brand { margin-right: 0; }
   .header-inner { gap: 32px; }
+  .site-header:not(.is-scrolled) .nav a { color: rgba(255, 255, 255, 0.9); }
+  .site-header:not(.is-scrolled) .nav a:hover,
+  .site-header:not(.is-scrolled) .nav a.is-active { color: #fff; }
 }

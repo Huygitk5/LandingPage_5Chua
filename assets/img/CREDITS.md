@@ -1,6 +1,6 @@
-# Ảnh nguồn cho video hero
+# Nguồn ảnh minh họa
 
-Ảnh từ Wikimedia Commons, đều là public domain / CC0 (dùng thương mại, không bắt buộc ghi nguồn). Chỉ dùng để dựng video bằng tools/hero-video.py, không phục vụ trực tiếp trên web.
+Ảnh từ Wikimedia Commons, đều là public domain / CC0 (dùng thương mại, không bắt buộc ghi nguồn). Hiện chưa dùng trên trang (video hero cũ dựng từ các ảnh này đã được thay bằng video giới thiệu).
 
 | File | Ảnh gốc | Tác giả | Giấy phép |
 |---|---|---|---|
