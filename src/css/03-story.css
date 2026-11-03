@@ -2,7 +2,7 @@
 .story { position: relative; --path-x: 12px; background: var(--cream); }
 .story .container { padding-left: 34px; }
 
-.chapter { position: relative; isolation: isolate; padding: 64px 0; }
+.chapter { position: relative; isolation: isolate; padding: 40px 0; }
 
 /* Họa tiết tổ ong rất mờ ở góc chương 02 và 04 để nhịp với phần mở đầu */
 .products::before, .contact::before {
@@ -29,7 +29,7 @@
 .chapter-title .section-sub { margin-top: 8px; }
 
 /* Câu dẫn sang chương sau */
-.chapter-next { margin: 48px 0 0; text-align: center; }
+.chapter-next { margin: 32px 0 0; text-align: center; }
 .chapter-next a {
   display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
   font-family: var(--font-head); font-style: italic; font-size: 1.15rem; color: var(--honey-dark); text-decoration: none;
@@ -60,13 +60,13 @@
 @media (min-width: 860px) {
   .story { --path-x: 20px; }
   .story .container { padding-left: 48px; }
-  .chapter { padding: 88px 0; }
+  .chapter { padding: 56px 0; }
 }
 
 @media (min-width: 1200px) {
   .story { --path-x: calc(50% - 570px); }
   .story .container { padding-left: 16px; }
-  .chapter { padding: 96px 0; }
+  .chapter { padding: 64px 0; }
   .chapter-head { gap: 22px; margin-bottom: 40px; }
 }
 
