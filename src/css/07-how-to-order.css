@@ -16,11 +16,13 @@
 .steps .order-form { max-width: 760px; margin: 0 auto; }
 
 @media (min-width: 860px) {
-  .steps-list { grid-template-columns: repeat(3, 1fr); gap: 28px; margin-bottom: 48px; }
-  .steps-list li { padding-left: 0; padding-top: 60px; }
-  /* Nét đứt nối số của bước này sang bước sau */
-  .steps-list li:not(:last-child)::after {
-    content: ""; position: absolute; left: 56px; right: -16px; top: 21px;
-    border-top: 2px dashed rgba(227, 160, 8, 0.55);
+  /* Số canh giữa cột, nét đứt hai bên số; các cột sát nhau nên nét đứt nối liền giữa các số */
+  .steps-list { grid-template-columns: repeat(3, 1fr); gap: 0; margin-bottom: 48px; }
+  .steps-list li { padding: 60px 14px 0; text-align: center; }
+  .step-no { left: 50%; transform: translateX(-50%); }
+  .steps-list li::before, .steps-list li::after {
+    content: ""; position: absolute; top: 21px; border-top: 2px dashed rgba(227, 160, 8, 0.55);
   }
+  .steps-list li::before { left: 0; right: calc(50% + 34px); }
+  .steps-list li::after { left: calc(50% + 34px); right: 0; }
 }
