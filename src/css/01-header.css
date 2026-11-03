@@ -49,6 +49,13 @@
   .header-call span { display: none; }
 }
 
+/* Đầu trang trên điện thoại: header nằm trên video nên chữ và nút menu màu trắng */
+@media (max-width: 859px) {
+  .site-header:not(.is-scrolled) .brand-name,
+  .site-header:not(.is-scrolled) .nav-toggle { color: #fff; }
+  .site-header:not(.is-scrolled) .brand-sub { color: #ffd666; }
+}
+
 @media (min-width: 860px) {
   .nav { display: flex; margin-right: auto; }
   .nav-toggle { display: none; }

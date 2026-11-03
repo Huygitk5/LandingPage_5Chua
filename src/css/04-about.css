@@ -1,4 +1,4 @@
-.about { position: relative; overflow: hidden; background: var(--paper); }
+.about { overflow: hidden; }
 
 .about-inner { position: relative; display: grid; gap: 32px; align-items: center; }
 .about-copy h2 { margin-bottom: 0.6em; }
@@ -23,6 +23,26 @@
 .about-photos img:nth-child(2) { margin-top: 44px; object-position: center 25%; }
 
 .leaf-about { --s: 180px; --r: 150deg; right: -50px; top: 40px; --o: 0.12; }
+
+/* Vì sao chọn: danh sách gọn ngay trong chương 01 */
+.reasons-title { margin: 56px 0 18px; font-size: 1.3rem; }
+.reasons { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.reasons li {
+  display: flex; align-items: flex-start; gap: 14px; padding: 16px 18px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.reasons .icon {
+  box-sizing: border-box; width: 2.6rem; height: 2.6rem; padding: 9px; border-radius: 50%;
+  background: var(--honey-soft); color: var(--honey-dark);
+}
+.reasons p { margin: 0; font-size: 0.95rem; color: var(--muted); }
+.reasons strong { display: block; margin-bottom: 2px; font-family: var(--font-head); font-size: 1.05rem; color: var(--green-dark); }
+
+@media (min-width: 700px) { .reasons { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1100px) {
+  .reasons { grid-template-columns: repeat(4, 1fr); }
+  .reasons li { flex-direction: column; }
+}
 
 @media (min-width: 860px) {
   .about-inner { grid-template-columns: 1.1fr 0.9fr; gap: 56px; }

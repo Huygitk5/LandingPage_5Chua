@@ -57,8 +57,6 @@ p { margin: 0 0 1em; }
 .icon { width: 1.25em; height: 1.25em; flex: none; }
 .icon-lg { width: 2.25rem; height: 2.25rem; }
 
-.section { padding: 56px 0; }
-.section-head { max-width: 700px; margin: 0 auto 32px; text-align: center; }
 .section-sub { color: var(--muted); margin: 0; }
 
 .eyebrow {
